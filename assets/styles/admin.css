@@ -1,0 +1,76 @@
+/* Constants */
+
+:root {
+  --color-dropDownOptionBackground: #585A69;
+  --color-stylizedInputListBackground: #535563;
+  --color-loginBackground: #2E2F3B;
+  --color-inputText: #B7B8BD;
+  --color-menuBackground: #2E2F3B;
+  --color-menuSeparateLine: #3D3E4D;
+  --color-menuItem: #8ED0BE;
+  --color-menuItemPressed: #C7E8DF;
+  --color-menuItemActive: #EF4331;
+  --color-contentBackground: #FFFFFF;
+  --color-contentColor: #3D3E4D;
+  --color-contentElementBackground: #4D4F5C;
+  --color-contentElementHoverBackground: #626575;
+}
+
+/* Admin styles */
+
+body {
+  font-family: GothamProLight;
+  width: 100vw;
+  height: 100vh;
+  min-width: 800px;
+  min-height: 400px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: var(--color-contentColor);
+  font-size: 16px;
+  background-color: var(--color-contentBackground);
+}
+
+input {
+  font-family: GothamProLight;
+  font-size: 16px;
+  padding: 3px;
+}
+
+input.planningInput::-webkit-input-placeholder {
+   color: var(--color-menuItem);
+}
+
+* {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+div::-webkit-scrollbar-track
+{
+  background-color: var(--color-stylizedInputListBackground);
+}
+
+div::-webkit-scrollbar
+{
+  width: 7px;
+}
+
+div::-webkit-scrollbar:horizontal
+{
+  height: 8px;
+}
+
+div::-webkit-scrollbar-thumb
+{
+  border-radius: 3px;
+  box-shadow: inset 0 0 4px rgba(0,0,0,.3);
+  background-color: rgb(61, 62, 77);
+}
+
+#content {
+  width: 100%;
+  margin: 0 auto;
+  min-width: 1000px;
+}

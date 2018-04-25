@@ -8,6 +8,10 @@
  * For more information on configuration, check out:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.http.html
  */
+const util = require('util');
+
+let requestCounter = 0,
+  requestQueue = {};
 
 module.exports.http = {
 
@@ -30,63 +34,111 @@ module.exports.http = {
   *                                                                          *
   ***************************************************************************/
 
-    // order: [
-    //   'startRequestTimer',
-    //   'cookieParser',
-    //   'session',
-    //   'myRequestLogger',
-    //   'bodyParser',
-    //   'handleBodyParserError',
-    //   'compress',
-    //   'methodOverride',
-    //   'poweredBy',
-    //   '$custom',
-    //   'router',
-    //   'www',
-    //   'favicon',
-    //   '404',
-    //   '500'
-    // ],
+    order: [
+      // 'startRequestTimer',
+      'cookieParser',
+      'session',
+      'gzRequestLogger',
+      'bodyParser',
+      'handleBodyParserError',
+      'compress',
+      // 'methodOverride',
+      // 'poweredBy',
+      // '$custom',
+      'router',
+      'www',
+      'favicon',
+      '404',
+      '500'
+    ],
 
   /****************************************************************************
   *                                                                           *
-  * Example custom middleware; logs each request to the console.              *
+  * Logs each reques.                                                         *
   *                                                                           *
   ****************************************************************************/
 
-    // myRequestLogger: function (req, res, next) {
-    //     console.log("Requested :: ", req.method, req.url);
-    //     return next();
-    // }
+    gzRequestLogger(req, res, next) {
+      let reqId = ++requestCounter;
 
+      requestQueue[reqId] = process.hrtime();
+      req._id = reqId;
+      sails.log.info(`Start req ${process.pid}:${reqId}, ${req.method}:${req.url}, queue:${Object.keys(requestQueue).length}`);
+
+      let finHandle = name => {
+        let hrstart = requestQueue[reqId], execTime = 0;
+
+        if (hrstart) {
+          let hrend = process.hrtime(hrstart);
+
+          execTime = `${hrend[0]}.${Math.round(hrend[1]/1000000)}s`;
+        }
+
+        sails.log.info(`${name} response: ${process.pid}:${reqId}, ${req.method}:${req.url}, ${execTime}, queue:${Object.keys(requestQueue).length}`);
+        delete requestQueue[reqId];
+      };
+
+      res.on('finish', () => {
+        finHandle('Finish');
+      });
+
+      res.on('end', () => {
+        finHandle('End');
+      });
+
+      return next();
+    },
+
+    /**
+     * Body parser error handler
+     *
+     * @param   {object}     err
+     * @param   {object}     req
+     * @param   {object}     res
+     * @param   {function}   next
+     */
+    handleBodyParserError(err, req, res, next) {  // eslint-disable-line no-unused-vars
+      if (req.path && /\/api\/resources/.test(req.path)) {
+        // api formed error
+        res.json(200,{
+          success: false,
+          errors: ['Can\'t parse JSON request'],
+        });
+
+        return;
+      }
+
+      // usual error
+      let bodyParserFailureErrorMsg = 'Unable to parse HTTP body - error occurred :: ' +
+        util.inspect(err && err.stack ? err.stack : err, false, null);
+
+      sails.log.error(bodyParserFailureErrorMsg);
+      res.send(400, bodyParserFailureErrorMsg);
+    },
+
+  },
 
   /***************************************************************************
   *                                                                          *
   * The body parser that will handle incoming multipart HTTP requests. By    *
-  * default,Sails uses [skipper](http://github.com/balderdashy/skipper). See *
-  * https://github.com/expressjs/body-parser for other options. Note that    *
-  * Sails uses an internal instance of Skipper by default; to override it    *
-  * and specify more options, make sure to "npm install                      *
-  * skipper@for-sails-0.12 --save" in your app first. You can also specify a *
-  * different body parser or a custom function with req, res and next        *
-  * parameters (just like any other middleware function).                    *
+  * default as of v0.10, Sails uses                                          *
+  * [skipper](http://github.com/balderdashy/skipper). See                    *
+  * http://www.senchalabs.org/connect/multipart.html for other options.      *
   *                                                                          *
   ***************************************************************************/
 
-
-    // bodyParser: require('skipper')({strict: true})
-
-  },
-
+  // bodyParser: require('skipper')
 
   /***************************************************************************
   *                                                                          *
-  * The number of milliseconds to cache static assets in production.         *
-  * These are any flat files like images, scripts, styleshseets, etc.        *
-  * that are served by the static middleware.  By default, these files       *
-  * are served from `.tmp/public`, a hidden folder compiled by Grunt.        *
+  * The number of seconds to cache flat files on disk being served by        *
+  * Express static middleware (by default, these files are in `.tmp/public`) *
+  *                                                                          *
+  * The HTTP static cache is only active in a 'production' environment,      *
+  * since that's the only time Express will cache flat-files.                *
   *                                                                          *
   ***************************************************************************/
 
   // cache: 31557600000
+
 };

@@ -1,0 +1,26 @@
+[
+  {
+    "userId": "1",
+    "manufacturerId": "1"
+  },
+  {
+    "userId": "1",
+    "manufacturerId": "2"
+  },
+  {
+    "userId": "2",
+    "manufacturerId": "1"
+  },
+  {
+    "userId": "3",
+    "manufacturerId": "2"
+  },
+  {
+    "userId": "4",
+    "manufacturerId": "1"
+  },
+  {
+    "userId": "5",
+    "manufacturerId": "2"
+  }
+]

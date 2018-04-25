@@ -1,3 +1,7 @@
+'use strict';
+
+const logger = require('../libs/logger');
+
 /**
  * Built-in Log Configuration
  * (sails.config.log)
@@ -24,6 +28,25 @@ module.exports.log = {
   *                                                                          *
   ***************************************************************************/
 
-  // level: 'info'
+  // If provided, instead of logging directly to the console, the functions exposed
+  // by the custom logger will be called, and log messages from Sails will be passed
+  // through.
+  custom: logger,
+
+  // Set to false to disable captain's log's handling of logging, logs will instead
+  // be passed to the configured custom logger
+  inspect: false,
+
+  // Set the level of detail to be shown in your app's log
+  level: 'verbose',
+
+  // crucial app timings (used for alerts)
+  warnTimings: {
+    handCollect: 50000,          // 50 seconds
+    appMetricsGathering: 50000,  // 50 seconds
+    appsCache: 300000,           // 5 minutes
+    singleIAPI: 5000,            // 5 seconds
+    batchIAPI: 50000             // 50 seconds
+  }
 
 };

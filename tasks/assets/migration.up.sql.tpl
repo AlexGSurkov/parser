@@ -1,0 +1,1 @@
+-- Sql for transforming into the new state

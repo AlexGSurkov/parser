@@ -19,33 +19,88 @@
 
 module.exports.policies = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Default policy for all controllers and actions (`true` allows public     *
-  * access)                                                                  *
-  *                                                                          *
-  ***************************************************************************/
 
-  // '*': true,
+  /**
+   *
+   * API Gateway
+   *
+   */
 
-  /***************************************************************************
-  *                                                                          *
-  * Here's an example of mapping some policies to run before a controller    *
-  * and its actions                                                          *
-  *                                                                          *
-  ***************************************************************************/
-	// RabbitController: {
+  /**
+   * Admin
+   */
 
-		// Apply the `false` policy as the default for all of RabbitController's actions
-		// (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
-		// '*': false,
+  'APIGateway/Admin2/AppRegistryController': {
+    // always add this default policy for all actions not listed here to prevent unauthorized access
+    '*': [
+      'APIGateway/defaultAccessDeniedPolicy'
+    ],
+    createKPI: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/kpi/appKpiCreate'
+    ],
+    createSmartFilter: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/smartFilter/appSmartFilterCreate'
+    ],
+    createAchievement: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/achievement/appAchievementCreate'
+    ],
+    createMechanicalAchievement: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/mechanicalAchievement/appMechanicalAchievementCreate'
+    ],
+    findKPIWithUsersAndStores: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/kpi/appKpiRead'
+    ],
+    findAchievementWithUsersAndStores: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/achievement/appAchievementRead'
+    ],
+    findMechanicalAchievementWithUsers: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/mechanicalAchievement/appMechanicalAchievementRead'
+    ],
+    updateKPI: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/kpi/appKpiUpdate'
+    ],
+    updateAchievement: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/achievement/appAchievementUpdate'
+    ],
+    updateMechanicalAchievement: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/mechanicalAchievement/appMechanicalAchievementUpdate'
+    ],
+    removeKPI: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/kpi/appKpiDelete'
+    ],
+    removeAchievement: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/achievement/appAchievementDelete'
+    ],
+    removeMechanicalAchievement: [
+      'APIGateway/Admin/isUserAuthorized',
+      'APIGateway/Admin/Permissions/adminAccess',
+      'APIGateway/Admin/Permissions/mechanicalAchievement/appMechanicalAchievementDelete'
+    ]
+  }
 
-		// For the action `nurture`, apply the 'isRabbitMother' policy
-		// (this overrides `false` above)
-		// nurture	: 'isRabbitMother',
 
-		// Apply the `isNiceToAnimals` AND `hasRabbitFood` policies
-		// before letting any users feed our rabbits
-		// feed : ['isNiceToAnimals', 'hasRabbitFood']
-	// }
 };

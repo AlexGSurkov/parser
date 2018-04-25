@@ -3,16 +3,12 @@
  *
  * ---------------------------------------------------------------
  *
- * Minify the intermediate concatenated CSS stylesheet which was
- * prepared by the `concat` task at `.tmp/public/concat/production.css`.
- *
- * Together with the `concat` task, this is the final step that minifies
- * all CSS files from `assets/styles/` (and potentially your LESS importer
- * file from `assets/styles/importer.less`)
+ * Minifies css files and places them into .tmp/public/min directory.
  *
  * For usage docs see:
- *   https://github.com/gruntjs/grunt-contrib-cssmin
+ *     https://github.com/gruntjs/grunt-contrib-cssmin
  *
+ * @param   {object}   grunt
  */
 module.exports = function(grunt) {
 

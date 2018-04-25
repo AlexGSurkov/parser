@@ -1,0 +1,67 @@
+[
+  {
+    "firstName": "Гарденайз",
+    "lastName": "Администратор",
+    "login": "admin",
+    "password": "$2a$08$pdTKj5ZHI2WzUwlGwKgTAeyhGWyt7faPgweFDHep/yK2dtj3Kblnq",
+    "parentId": null,
+    "phone": "380000000000",
+    "province": "Киевская обл.",
+    "city": "Киев",
+    "address": "ул. павла Тычины 1-в",
+    "id": "1",
+    "scope": []
+  },
+  {
+    "firstName": "Гарденайз",
+    "lastName": "Супервайзер1",
+    "login": "supervisor1",
+    "password": "$2a$08$pdTKj5ZHI2WzUwlGwKgTAeyhGWyt7faPgweFDHep/yK2dtj3Kblnq",
+    "parentId": null,
+    "phone": "380000000001",
+    "province": "Киевская обл.",
+    "city": "Киев",
+    "address": "ул. павла Тычины 1-в",
+    "id": "2",
+    "scope": []
+  },
+  {
+    "firstName": "Гарденайз",
+    "lastName": "Супервайзер2",
+    "login": "supervisor2",
+    "password": "$2a$08$pdTKj5ZHI2WzUwlGwKgTAeyhGWyt7faPgweFDHep/yK2dtj3Kblnq",
+    "parentId": null,
+    "phone": "380000000002",
+    "province": "Киевская обл.",
+    "city": "Киев",
+    "address": "ул. павла Тычины 1-в",
+    "id": "3",
+    "scope": []
+  },
+  {
+    "firstName": "Гарденайз",
+    "lastName": "Агент1",
+    "login": "agent1",
+    "password": "$2a$08$pdTKj5ZHI2WzUwlGwKgTAeyhGWyt7faPgweFDHep/yK2dtj3Kblnq",
+    "parentId": null,
+    "phone": "380000000003",
+    "province": "Киевская обл.",
+    "city": "Киев",
+    "address": "ул. павла Тычины 1-в",
+    "id": "4",
+    "scope": []
+  },
+  {
+    "firstName": "Гарденайз",
+    "lastName": "Агент2",
+    "login": "agent2",
+    "password": "$2a$08$pdTKj5ZHI2WzUwlGwKgTAeyhGWyt7faPgweFDHep/yK2dtj3Kblnq",
+    "parentId": null,
+    "phone": "380000000004",
+    "province": "Киевская обл.",
+    "city": "Киев",
+    "address": "ул. павла Тычины 1-в",
+    "id": "5",
+    "scope": []
+  }
+]

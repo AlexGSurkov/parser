@@ -1,0 +1,134 @@
+{
+  "apps": [
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION01",
+      "script": "app.js",
+      "env": {
+        "PORT": 10000,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION02",
+      "script": "app.js",
+      "env": {
+        "PORT": 10001,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION03",
+      "script": "app.js",
+      "env": {
+        "PORT": 10002,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION04",
+      "script": "app.js",
+      "env": {
+        "PORT": 10003,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION05",
+      "script": "app.js",
+      "env": {
+        "PORT": 10004,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION06",
+      "script": "app.js",
+      "env": {
+        "PORT": 10005,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION07",
+      "script": "app.js",
+      "env": {
+        "PORT": 10006,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION08",
+      "script": "app.js",
+      "env": {
+        "PORT": 10007,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION09",
+      "script": "app.js",
+      "env": {
+        "PORT": 10008,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    },
+    {
+      "name": "GARDENIZE INTEGRATION PRODUCTION10",
+      "script": "app.js",
+      "env": {
+        "PORT": 10009,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "900M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production-integration"
+      }
+    }
+  ]
+}

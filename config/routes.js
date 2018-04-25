@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Route Mappings
  * (sails.config.routes)
@@ -19,31 +21,73 @@
  * For more information on configuring custom routes, check out:
  * http://sailsjs.org/#!/documentation/concepts/Routes/RouteTargetSyntax.html
  */
-
-module.exports.routes = {
-
+let routes = {
   /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+   *                                                                          *
+   * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
+   * etc. depending on your default view engine) your home page.              *
+   *                                                                          *
+   * (Alternatively, remove this and add an `index.html` file in your         *
+   * `assets` directory)                                                      *
+   *                                                                          *
+   ***************************************************************************/
 
-  '/': {
-    view: 'homepage'
+  '/': '/app',
+
+
+  //app
+
+  'POST /app/auth': {
+    controller: 'AuthController',
+    action: 'create'
+  },
+
+  '/app*': {
+    controller: 'PageController',
+    action: 'render'
+  },
+
+  // api
+
+  'POST /api/auth': {
+    controller: 'AuthController',
+    action: 'create'
+  },
+
+  'POST /api/user': {
+    controller: 'UserController',
+    action: 'create'
+  },
+
+  'GET /api/user/:id': {
+    controller: 'UserController',
+    action: 'find'
+  },
+
+  'GET /api/user': {
+    controller: 'UserController',
+    action: 'find'
+  },
+
+  'PUT /api/user/:id': {
+    controller: 'UserController',
+    action: 'update'
+  },
+
+  'DELETE /api/user/:id': {
+    controller: 'UserController',
+    action: 'destroy'
+  },
+
+  'GET /api/search/:line/:number': {
+    controller: 'ParsingController',
+    action: 'find'
+  },
+
+  'GET /api/search/lines': {
+    controller: 'ParsingController',
+    action: 'getLines'
   }
-
-  /***************************************************************************
-  *                                                                          *
-  * Custom routes here...                                                    *
-  *                                                                          *
-  * If a request to a URL doesn't match any of the custom routes above, it   *
-  * is matched against Sails route blueprints. See `config/blueprints.js`    *
-  * for configuration options and examples.                                  *
-  *                                                                          *
-  ***************************************************************************/
-
 };
+
+module.exports.routes = routes;

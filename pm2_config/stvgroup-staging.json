@@ -1,0 +1,327 @@
+{
+  "apps": [
+    {
+      "name": "GARDENIZE STVGROUP IAPI01",
+      "script": "app.js",
+      "env": {
+        "PORT": 10000,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI02",
+      "script": "app.js",
+      "env": {
+        "PORT": 10001,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI03",
+      "script": "app.js",
+      "env": {
+        "PORT": 10002,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI04",
+      "script": "app.js",
+      "env": {
+        "PORT": 10003,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI05",
+      "script": "app.js",
+      "env": {
+        "PORT": 10004,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI06",
+      "script": "app.js",
+      "env": {
+        "PORT": 10005,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI07",
+      "script": "app.js",
+      "env": {
+        "PORT": 10006,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI08",
+      "script": "app.js",
+      "env": {
+        "PORT": 10007,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI09",
+      "script": "app.js",
+      "env": {
+        "PORT": 10008,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI10",
+      "script": "app.js",
+      "env": {
+        "PORT": 10009,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI11",
+      "script": "app.js",
+      "env": {
+        "PORT": 10010,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI12",
+      "script": "app.js",
+      "env": {
+        "PORT": 10011,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI13",
+      "script": "app.js",
+      "env": {
+        "PORT": 10012,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI14",
+      "script": "app.js",
+      "env": {
+        "PORT": 10013,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP IAPI15",
+      "script": "app.js",
+      "env": {
+        "PORT": 10014,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP BACKEND01",
+      "script": "app.js",
+      "env": {
+        "PORT": 11000,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP BACKEND02",
+      "script": "app.js",
+      "env": {
+        "PORT": 11001,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP BACKEND03",
+      "script": "app.js",
+      "env": {
+        "PORT": 11002,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP BACKEND04",
+      "script": "app.js",
+      "env": {
+        "PORT": 11003,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP BACKEND05",
+      "script": "app.js",
+      "env": {
+        "PORT": 11004,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP BACKEND06",
+      "script": "app.js",
+      "env": {
+        "PORT": 11005,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP STREAMAPI01",
+      "script": "app.js",
+      "env": {
+        "PORT": 12000,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    },
+    {
+      "name": "GARDENIZE STVGROUP STREAMAPI02",
+      "script": "app.js",
+      "env": {
+        "PORT": 12001,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "stvgroup-staging"
+      }
+    }
+
+  ]
+}

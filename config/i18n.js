@@ -6,7 +6,7 @@
  * may be an important part of your international strategy.
  *
  *
- * For more information on i18n in Sails, check out:
+ * For more informationom i18n in Sails, check out:
  * http://sailsjs.org/#!/documentation/concepts/Internationalization
  *
  * For a complete list of i18n options, see:
@@ -23,7 +23,7 @@ module.exports.i18n = {
   *                                                                          *
   ***************************************************************************/
 
-  // locales: ['en', 'es', 'fr', 'de'],
+   locales: ['en'],
 
   /****************************************************************************
   *                                                                           *
@@ -34,7 +34,7 @@ module.exports.i18n = {
   *                                                                           *
   ****************************************************************************/
 
-  // defaultLocale: 'en',
+  defaultLocale: 'en',
 
   /****************************************************************************
   *                                                                           *

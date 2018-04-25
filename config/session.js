@@ -21,50 +21,44 @@ module.exports.session = {
   * of your users, forcing them to log in again.                             *
   *                                                                          *
   ***************************************************************************/
-  secret: '848a9b15bb31ee4cecd6bd8989c584c6',
+  secret: 'cba4b62ad45d4300fcb816e3c701b0eb',
 
 
   /***************************************************************************
   *                                                                          *
-  * Set options for the session cookie. See                                  *
-  * https://github.com/expressjs/session#cookie for more info.               *
+  * Set the session cookie expire time The maxAge is set by milliseconds,    *
+  * the example below is for 2 weeks                                         *
   *                                                                          *
   ***************************************************************************/
 
-  // cookie: {
-  //   // Cookie expiration in milliseconds.
-  //   // For example, use 24 * 60 * 60 * 1000 to make sessions expire in 24 hours.
-  //   // Default is null, making it a browser cookie, so the session will
-  //   // last only for as long as the browser is open.
-  //   maxAge: null,
-  //   // Path that the cookie is valid for.
-  //   path: '/',
-  //   // Should the session cookie be HTTP-only? (See https://www.owasp.org/index.php/HttpOnly)
-  //   httpOnly: true,
-  //   // Should the session cookie be secure? (only valid for HTTPS sites)
-  //   secure: false
-  // },
+  cookie: {
+    maxAge: 14 * 24 * 60 * 60 * 1000
+  },
 
   /***************************************************************************
   *                                                                          *
-  * Uncomment the following lines to set up a Redis session store that can   *
-  * be shared across multiple Sails.js servers.                              *
-  *                                                                          *
-  * Requires connect-redis (https://www.npmjs.com/package/connect-redis)     *
-  *                                                                          *
-  * See http://bit.ly/redis-session-config for more information about how to *
-  * configure                                                                *
+  * Force a session identifier cookie to be set on every response            *
+  * The expiration is reset to the original maxAge, resetting                *
+  * the expiration countdown.                                                *
   *                                                                          *
   ***************************************************************************/
 
-  // adapter: 'connect-redis',
+  rolling: true
+
+  /***************************************************************************
+  *                                                                          *
+  * In production, uncomment the following lines to set up a shared redis    *
+  * session store that can be shared across multiple Sails.js servers        *
+  ***************************************************************************/
+
+  // adapter: 'redis',
 
   /***************************************************************************
   *                                                                          *
   * The following values are optional, if no options are set a redis         *
   * instance running on localhost is expected. Read more about options at:   *
-  *                                                                          *
   * https://github.com/visionmedia/connect-redis                             *
+  *                                                                          *
   *                                                                          *
   ***************************************************************************/
 
@@ -78,36 +72,30 @@ module.exports.session = {
 
   /***************************************************************************
   *                                                                          *
-  * Uncomment the following lines to set up a MongoDB session store that can *
-  * be shared across multiple Sails.js servers.                              *
-  *                                                                          *
-  * Requires connect-mongo (https://www.npmjs.com/package/connect-mongo)     *
-  * Use version 0.8.2 with Node version <= 0.12                              *
-  * Use the latest version with Node >= 4.0                                  *
+  * Uncomment the following lines to use your Mongo adapter as a session     *
+  * store                                                                    *
   *                                                                          *
   ***************************************************************************/
 
   // adapter: 'mongo',
-  // url: 'mongodb://user:password@localhost:27017/dbname', // user, password and port optional
+  // host: 'localhost',
+  // port: 27017,
+  // db: 'sails',
+  // collection: 'sessions',
 
   /***************************************************************************
   *                                                                          *
   * Optional Values:                                                         *
   *                                                                          *
-  * See https://github.com/kcbanner/connect-mongo for more                   *
-  * information about connect-mongo options.                                 *
-  *                                                                          *
-  * See http://bit.ly/mongooptions for more information about options        *
-  * available in `mongoOptions`                                              *
+  * # Note: url will override other connection settings url:                 *
+  * 'mongodb://user:pass@host:port/database/collection',                     *
   *                                                                          *
   ***************************************************************************/
 
-  // collection: 'sessions',
-  // stringify: true,
-  // mongoOptions: {
-  //   server: {
-  //     ssl: true
-  //   }
-  // }
+  // username: '',
+  // password: '',
+  // auto_reconnect: false,
+  // ssl: false,
+  // stringify: true
 
 };

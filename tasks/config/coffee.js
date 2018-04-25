@@ -1,15 +1,15 @@
 /**
- * `coffee`
+ * Compile CoffeeScript files to JavaScript.
  *
  * ---------------------------------------------------------------
  *
- * Compile CoffeeScript files located in `assets/js` into Javascript
- * and generate new `.js` files in `.tmp/public/js`.
+ * Compiles coffeeScript files from `assest/js` into Javascript and places them into
+ * `.tmp/public/js` directory.
  *
  * For usage docs see:
- *   https://github.com/gruntjs/grunt-contrib-coffee
- *
+ *    https://github.com/gruntjs/grunt-contrib-coffee
  */
+
 module.exports = function(grunt) {
 
   grunt.config.set('coffee', {
@@ -19,13 +19,15 @@ module.exports = function(grunt) {
         sourceMap: true,
         sourceRoot: './'
       },
-      files: [{
-        expand: true,
-        cwd: 'assets/js/',
-        src: ['**/*.coffee'],
-        dest: '.tmp/public/js/',
-        ext: '.js'
-      }]
+      files: [
+        {
+          expand: true,
+          cwd: 'assets/js/',
+          src: ['**/*.coffee'],
+          dest: '.tmp/public/js/',
+          ext: '.js'
+        }
+      ]
     }
   });
 

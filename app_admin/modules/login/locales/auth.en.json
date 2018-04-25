@@ -1,0 +1,23 @@
+{
+  "errors": {
+    "incorrect_phone": "Need to fill correct phone number!",
+    "incorrect_password": "Password must be from {min} up to {max} characters length!",
+    "auth_error": "Error: {msg}"
+  },
+  "fields": {
+    "phone": "Your phone number",
+    "password": "Password"
+  },
+  "buttons": {
+    "login": "login"
+  },
+  "footer": {
+    "info": "Don't have an account?",
+    "signup": "Sign up"
+  },
+  "browserMessage": {
+    "part1": "To log in to the administrator panel use ",
+    "part2": "Chrome",
+    "part3": " browser"
+  }
+}

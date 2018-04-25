@@ -1,3 +1,5 @@
+const pg = require('pg');
+
 /**
  * Bootstrap
  * (sails.config.bootstrap)
@@ -11,7 +13,20 @@
 
 module.exports.bootstrap = function(cb) {
 
+  /**
+   * Set data type parsers for sequelize
+   */
+
+  // for decimal
+  pg.types.setTypeParser(1700, val => Number.parseFloat(val));
+
+
+  /**
+   * Bootstrap sails
+   */
+
   // It's very important to trigger this callback method when you are finished
   // with the bootstrap!  (otherwise your server will never lift, since it's waiting on the bootstrap)
+  sails.log.info(`Node version: ${process.version}`);
   cb();
 };

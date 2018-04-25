@@ -1,0 +1,78 @@
+{
+  "main_menu": {
+    "users": {
+      "title": "Користувачі",
+      "items": null
+    },
+    "clients": {
+      "title": "Кліенти",
+      "items": null
+    },
+    "product_categories": {
+      "title": "Продукти",
+      "items": null
+    },
+    "sales": {
+      "title": "Продажі",
+      "items": null
+    },
+    "kpi": {
+      "title": "Метрики",
+      "items": {
+        "create": "Створити",
+        "planning": "Планування",
+        "listing": "Список"
+      }
+    },
+    "smart_filters": {
+      "title": "Розумні фільтри",
+      "items": {
+        "create": "Створити"
+      }
+    },
+    "achievements": {
+      "title": "досягнення",
+      "items": {
+        "create": "створити",
+        "settings": "налаштування",
+        "listing": "список",
+        "time_machine": "time machine",
+        "store": "сховище"
+      }
+    },
+    "accessRights": {
+      "title": "права доступу",
+      "items": {
+        "create": "створити роль",
+        "rolesList": "список ролей",
+        "usersRoles": "ролі користувачів"
+      }
+    },
+    "resources": {
+      "title": "ресурси",
+      "items": {
+        "scopes": "зони",
+        "users": "користувачі"
+      }
+    },
+    "my_salary": {
+      "title": "Моя зарплата",
+      "items": null
+    },
+    "miscellaneous_configuration": {
+      "title": "Конфігурації",
+      "items": null
+    }
+  },
+  "user_settings_menu": {
+    "logout": {
+      "title": "Вийти"
+    },
+    "settings": {
+      "title": "Налаштування"
+    },
+    "support": {
+      "title": "Підтримка"
+    }
+  }
+}

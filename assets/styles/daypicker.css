@@ -1,0 +1,179 @@
+/* react-day-picker styles */
+
+.DayPicker {
+  --size-caption: 40px;
+  --size-navButtonWidth: 40px;
+  --size-dayWidth: 42px;
+  --size-dayHeight: 40px;
+  --size-mainFont: 14px;
+}
+
+.DayPicker {
+  margin-bottom: 2px;
+  display: inline-block;
+}
+
+.DayPicker * {
+  outline: none;
+}
+
+.DayPicker abbr {
+  text-decoration: none;
+  border-bottom: none;
+}
+
+.DayPicker-wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  user-select: none;
+  flex-direction: row;
+  border-radius: 10px;
+}
+
+.DayPicker-Month {
+  display: table;
+  border-collapse: collapse;
+  border-spacing: 0;
+  user-select: none;
+}
+
+.DayPicker-NavBar {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.DayPicker-NavButton {
+  position: absolute;
+  width: var(--size-navButtonWidth);
+  height: calc(var(--size-caption) - 2px);
+  cursor: pointer;
+}
+
+.DayPicker-NavButton--prev {
+  left: 0px;
+}
+
+.DayPicker-NavButton--prev::after {
+  position: absolute;
+  font-size: calc(var(--size-caption) / 2);
+  content: '\3008';
+  color: var(--color-menuItem);
+  text-align: left;
+  line-height: calc(var(--size-caption) - 2px);
+  position: absolute;
+  top: 1px;
+  right: calc(var(--size-navButtonWidth) - 25px);
+}
+
+.DayPicker-NavButton--next {
+  right: 0px;
+}
+
+.DayPicker-NavButton--next::after {
+  position: absolute;
+  font-size: calc(var(--size-caption) / 2);
+  content: '\3009';
+  color: var(--color-menuItem);
+  text-align: right;
+  line-height: calc(var(--size-caption) - 2px);
+  position: absolute;
+  top: 1px;
+  left: calc(var(--size-navButtonWidth) - 25px);
+}
+
+.DayPicker-NavButton--interactionDisabled {
+  display: none;
+}
+
+.DayPicker-Caption {
+  display: table-caption;
+  background-color: var(--color-contentElementBackground);
+  height: var(--size-caption);
+  line-height: var(--size-caption);
+  text-align: center;
+}
+
+.DayPicker-Weekdays {
+  display: table-header-group;
+}
+
+.DayPicker-WeekdaysRow {
+  display: table-row;
+}
+
+.DayPicker-Weekday {
+  display: table-cell;
+  text-decoration: none;
+  font-size: var(--size-mainFont);
+  line-height: calc(var(--size-mainFont) + 10px);
+  text-align: center;
+  border: 2px solid var(--color-menuSeparateLine);
+  background-color: var(--color-contentElementBackground);
+}
+
+.DayPicker-Body {
+  display: table-row-group;
+}
+
+.DayPicker-Week {
+  display: table-row;
+}
+
+.DayPicker-Day {
+  display: table-cell;
+  width: var(--size-dayWidth);
+  height: var(--size-dayHeight);
+  font-size: var(--size-mainFont);
+  background-color: var(--color-contentElementBackground);
+  padding-top: 2px;
+  border: 2px solid var(--color-menuSeparateLine);
+  color: var(--color-menuItem);
+  text-align: center;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+.DayPicker-WeekNumber {
+  display: table-cell;
+  text-align: right;
+  vertical-align: middle;
+  font-size: var(--size-mainFont);
+  cursor: pointer;
+}
+
+.DayPicker--interactionDisabled .DayPicker-Day {
+  cursor: default;
+}
+
+/* Default modifiers */
+
+.DayPicker-Day--today {
+  box-shadow: inset 0px 0px 0px 2px var(--color-menuItem);
+}
+
+.DayPicker-Day--today.DayPicker-Day--selected {
+  box-shadow: inset 0px 0px 0px 2px var(--color-contentColor);
+}
+
+.DayPicker-Day--disabled {
+  color: var(--ccolor-ontentColor);
+  cursor: default;
+}
+
+/* Modifiers */
+
+.DayPicker-Day--even {
+  background-color: var(--color-stylizedInputListBackground);
+}
+
+.DayPicker-Day--past {
+  color: var(--color-contentColor);
+  cursor: default;
+}
+
+.DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
+  color: var(--color-contentColor);
+  background-color: var(--color-menuItem);
+}

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Gardenize reports: sales for stores per order</title>
+
+  <!-- Viewport mobile tag for sensible mobile support -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      width: 800px;
+      margin: 30px auto;
+      background: #fafafa;
+      padding: 20px;
+      box-shadow: 1px 1px 5px rgba(20, 20, 20, 0.2);
+    }
+
+    .element {
+      display: block;
+      margin: 0 0 20px;
+    }
+
+    .notice {
+      color: #888888;
+    }
+
+    .one-rule {
+      overflow: hidden;
+      clear: both;
+      padding: 10px;
+    }
+
+    .one-rule:nth-child(2n+1) {
+      background: #e5f0fb;
+    }
+
+    .one-rule .rule-name {
+      width: 50%;
+      float: left;
+    }
+
+    .input {
+      width: 50%;
+      line-height: 26px;
+      height: 30px;
+    }
+
+    .errorMsg {
+      color: red;
+      border: 1px solid;
+      padding: 20px;
+    }
+
+    ul {
+      display: block;
+      list-style-type: disc;
+    }
+
+    ul > li {
+      display: list-item;
+      list-style-type: circle;
+    }
+  </style>
+</head>
+
+<body>
+<div class="container">
+  <div class="element">
+    <div>Завантажити інші звіти:</div>
+    <ul>
+      <li><a href="/v2/admin/reports/users">Звіт по користувачам</a></li>
+      <li><a href="/v2/admin/reports/stores">Звіт по ТРТ</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class="container">
+  <h1 class="element">Звіт по продажам для ТРТ в розрізі ордерів</h1>
+  <div>
+    <div class="element notice">
+      Елементи керування звітом налаштовані під браузер Chrome
+    </div>
+
+    <% if (locals.errorMsg) { %>
+    <div class="element errorMsg"><%= errorMsg %></div>
+    <% } %>
+
+    <form action="/v2/admin/reports/stores/orders" method="post" enctype="application/x-www-form-urlencoded">
+      <div class="element">
+
+        <div class="one-rule">
+          <div class="rule-name">Місяць та рік</div>
+          <div class="rule-content">
+            <input class="input" type="month" name="date"/>
+          </div>
+        </div>
+
+        <div class="one-rule">
+          <div class="rule-name">Скоуп</div>
+          <div class="rule-content">
+            <select class="input" name="scope">
+              <option value="none">--- без скоупа ---</option>
+              <% Array.isArray(locals.scopes) && _.forEach(scopes, function(scope) { %>
+              <option value="<%= scope %>"><%= scope %></option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+
+        <div class="one-rule">
+          <div class="rule-name">Категорія продукта</div>
+          <div class="rule-content">
+            <select class="input" name="productCategory">
+              <option value="none">--- без категорії ---</option>
+              <% Array.isArray(locals.flatProductCategoryHierarchy) && _.forEach(flatProductCategoryHierarchy, function(productCategory) { %>
+              <option value="<%= productCategory.id %>">
+                <%= _.repeat('&mdash;', productCategory.hierarchyLevel) %>
+                <%= [productCategory.scope.join(', '), ': ', productCategory.name].join('') %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+
+        <div class="one-rule">
+          <div class="rule-name">Юзер</div>
+          <div class="rule-content">
+            <select class="input" name="user">
+              <option value="none">--- без юзера ---</option>
+              <% Array.isArray(locals.flatUserHierarchy) && _.forEach(flatUserHierarchy, function(user) { %>
+              <option value="<%= user.id %>">
+                <%= _.repeat('&mdash;', user.hierarchyLevel) %>
+                <%= [user.scope.join(', '), ': ', user.firstName, ' ', user.lastName].join('') %>
+              </option>
+              <% }); %>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="element notice">
+        Вигляд звіту
+      </div>
+
+      <div class="element">
+        <div class="one-rule">
+          <div class="rule-name">Вивід ордерів для ТРТ</div>
+          <div class="rule-content">
+            <select class="input" name="report-adapter">
+              <option value="order-per-row">кожен ордер з нового рядка</option>
+              <option value="all-orders-in-one-row">усі ордери в одному рядку</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <input class="input" type="submit" value="Отримати звіт"/>
+
+    </form>
+  </div>
+</div>
+</body>
+</html>

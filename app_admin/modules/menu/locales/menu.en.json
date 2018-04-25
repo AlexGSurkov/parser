@@ -1,0 +1,78 @@
+{
+  "main_menu": {
+    "users": {
+      "title": "Users",
+      "items": null
+    },
+    "clients": {
+      "title": "Clients",
+      "items": null
+    },
+    "product_categories": {
+      "title": "Product Categories",
+      "items": null
+    },
+    "sales": {
+      "title": "Sales",
+      "items": null
+    },
+    "kpi": {
+      "title": "Metrics",
+      "items": {
+        "create": "Create",
+        "planning": "Planning",
+        "listing": "Listing"
+      }
+    },
+    "smart_filters": {
+      "title": "Smart Filters",
+      "items": {
+        "create": "create"
+      }
+    },
+    "achievements": {
+      "title": "achievements",
+      "items": {
+        "create": "create",
+        "settings": "settings",
+        "listing": "listing",
+        "time_machine": "time machine",
+        "store": "store"
+      }
+    },
+    "accessRights": {
+      "title": "access rights",
+      "items": {
+        "create": "create role",
+        "rolesList": "roles list",
+        "usersRoles": "users roles"
+      }
+    },
+    "resources": {
+      "title": "resources",
+      "items": {
+        "scopes": "scopes",
+        "users": "users"
+      }
+    },
+    "my_salary": {
+      "title": "My Salary",
+      "items": null
+    },
+    "miscellaneous_configuration": {
+      "title": "Miscellaneous Configuration",
+      "items": null
+    }
+  },
+  "user_settings_menu": {
+    "logout": {
+      "title": "LOG OUT"
+    },
+    "settings": {
+      "title": "settings"
+    },
+    "support": {
+      "title": "tech support"
+    }
+  }
+}

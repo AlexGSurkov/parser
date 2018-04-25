@@ -1,13 +1,13 @@
 'use strict';
 
-var Sails = require('sails').Sails,
+const {Sails} = require('sails'),
   path = require('path'),
   Promise = require('bluebird'),
   moment = require('moment'),
   _ = require('lodash'),
   Umzug = require('umzug'),
   Sequelize = require('sequelize'),
-  sailsPortsToLift = require(process.cwd() + '/config/sailsPortsToLift.js').sailsPortsToLift;
+  {sailsPortsToLift} = require(process.cwd() + '/config/sailsPortsToLift.js');
 
 
 function ts() {
@@ -16,25 +16,25 @@ function ts() {
 
 
 function createMigrator(sails) {
-  var migrationsDir = getMigrationsDir(sails),
-    connection = sails.config.connections[sails.config.models.connection],
-    conUrl,
+  const migrationsDir = getMigrationsDir(sails),
+    connection = sails.config.connections[sails.config.models.connection];
+
+  let conUrl,
     conOpts = {};
 
   if (connection.url) {
     conUrl = connection.url;
     conOpts = connection.options;
   } else {
-
     conUrl = (connection.dialect || 'postgres') + '://' + connection.user + ':' +
-    connection.password + '@' + connection.host + ':' + (connection.port || '5432') +
-    '/' + (connection.database);
+      connection.password + '@' + connection.host + ':' + (connection.port || '5432') +
+      '/' + connection.database;
     conOpts = connection.options;
   }
 
   sails.log.silly("Connect: " + conUrl, conOpts);
 
-  var db = new Sequelize(conUrl, conOpts);
+  const db = new Sequelize(conUrl, conOpts);
 
   return new Umzug({
     storage: 'sequelize',
@@ -55,9 +55,10 @@ function createMigrator(sails) {
 
 
 function createMigrateTask(sails) {
-  var migrator = createMigrator(sails);
+  const migrator = createMigrator(sails);
 
-  var task = Object.create(migrator);
+  let task = Object.create(migrator);
+
   task.undo = task.down;
 
   task.redo = function() {
@@ -82,8 +83,8 @@ function getMigrationsDir(sails) {
 
 
 function generateSqlMigration(grunt, migrationsDir, name, timeStamp, dst) {
-  var sqlUpFile = '/sqls/' + timeStamp + '-' + name + '-up' + '.sql',
-    sqlDownFile = '/sqls/' + timeStamp + '-' + name + '-down' + '.sql',
+  const sqlUpFile = `/sqls/${timeStamp}-${name}-up.sql`,
+    sqlDownFile = `/sqls/${timeStamp}-${name}-down.sql`,
     dstSqlUpPath = path.join(migrationsDir, sqlUpFile),
     dstSqlDownPath = path.join(migrationsDir, sqlDownFile),
     sqlTemplate = _.template(
@@ -100,7 +101,7 @@ function generateSqlMigration(grunt, migrationsDir, name, timeStamp, dst) {
 
 
 function generateMigration(grunt, sails, name) {
-  var sqlFile = grunt.option('sql-file'),
+  const sqlFile = grunt.option('sql-file'),
     migrationsDir = getMigrationsDir(sails),
     timeStamp = ts(),
     dst = path.join(migrationsDir, timeStamp + '-' + name + '.js');
@@ -120,37 +121,37 @@ function generateMigration(grunt, sails, name) {
 /**
  * Lifts sails from grunt
  *
- * @param grunt   {object}
+ * @param   {object}    grunt
  * @returns {bluebird}
  */
 function liftSails(grunt) {
   return new Promise((resolve, reject) => {
-      var sails,
+    let sails,
       sailsConfig,
       env;
 
-  if (grunt.option('env')) {
-    env = grunt.option('env');
-  } else {
-    env = process.env.NODE_ENV;
-  }
-
-  sailsConfig = {
-    port: sailsPortsToLift.migration,
-    log: {level: process.env.LOG_LEVEL || 'error'},
-    environment: env,
-    migrating: false,
-    hooks: {
-      blueprints: false,
-      orm: false,
-      pubsub: false,
-      grunt: false
+    if (grunt.option('env')) {
+      env = grunt.option('env');
+    } else {
+      env = process.env.NODE_ENV;
     }
-  };
 
-  sails = new Sails();
-  sails.lift(sailsConfig, err => {
-    if (err) {
+    sailsConfig = {
+      port: sailsPortsToLift.migration,
+      log: {level: process.env.LOG_LEVEL || 'error'},
+      environment: env,
+      migrating: false,
+      hooks: {
+        blueprints: false,
+        orm: false,
+        pubsub: false,
+        grunt: false
+      }
+    };
+
+    sails = new Sails();
+    sails.lift(sailsConfig, err => {
+      if (err) {
         grunt.log.error(err.stack);
         return reject(err);
       }
@@ -172,27 +173,25 @@ function usage(grunt) {
 
 module.exports = function(grunt) {
   grunt.registerTask('db:migration', 'Run the database migrations', function(command) {
-    var done = this.async(),
-      name = grunt.option('name'),
-      sailsInstance;
+    const done = this.async(),
+      name = grunt.option('name');
+
+    let  sailsInstance;
 
     if (!command) {
       usage(grunt);
-
       return done();
     }
 
 
-    liftSails(grunt).then((sails) => {
+    liftSails(grunt).then(sails => {
       sailsInstance = sails;
-
       grunt.log.debug("Sails is up");
 
       if (command === 'generate') {
         if (!name) {
           throw new Error('Name required to create new migration');
         }
-
         generateMigration(grunt, sails, name);
 
       } else {
@@ -202,28 +201,33 @@ module.exports = function(grunt) {
           switch (command) {
             case 'up':
               grunt.log.writeln('Running pending migrations...');
+
               return task.up();
             case 'down': /* falls through */
             case 'undo':
               if (!name) {
                 grunt.log.writeln('Undoing last migration...');
                 return task.down();
-              } else {
-                grunt.log.writeln('Undoing migration down to ' + name);
-                return task.down({to: name});
               }
+
+              grunt.log.writeln('Undoing migration down to ' + name);
+
+              return task.down({to: name});
             case 'redo':
               grunt.log.writeln('Redoing last migration...');
+
               return task.redo();
             default:
               throw new Error('Unknown task: db:migration:' + command);
           }
         });
       }
-    }).then(() => sailsInstance.lower(done)).catch(e => {
+    }).then(() => {
+      sailsInstance.lower(done);
+
+    }).catch(e => {
       grunt.log.error(e);
       sailsInstance.lower(() => done(e));
     });
   });
 };
-

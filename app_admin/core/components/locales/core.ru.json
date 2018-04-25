@@ -1,0 +1,148 @@
+{
+  "stylized_container": {
+    "stylized_code_input": {
+      "name_input_title": "Название:",
+      "name_input_placeholder": "Название формулы",
+      "code_input_placeholder": "Код формулы"
+    }
+  },
+  "header_block": {
+    "save_button_title": "сохранить"
+  },
+  "popoverWindow": {
+    "messages": {
+      "no_internet": "Нет доступа к Интернету. Проверьте подключение",
+      "server": "Произошла ошибка на сервере. Попробуйте еще раз.\nТел. горячей линии Gardenize:\n{phone}\n{time}",
+      "user_input": "Убедитесь в точности введенных данных.\nСообщите о проблеме в горячую линию Gardenize по тел.:\n{phone}\n{time}",
+      "cannot_be_empty": "Поле {field_name} должно быть заполнено",
+      "template_created": "Шаблон успешно создан",
+      "template_saved": "Изменения сохранены",
+      "dim_not_ready": "Размерности еще не готовы, подождите 10 сек.",
+      "needs_users": "Необходимо выбрать, по крайней мере, одного пользователя или торговую точку из иерархии",
+      "needs_SKU": "Необходимо добавить, по крайней мере, один SKU",
+      "needs_filter": "Необходимо добавить, по крайней мере, один фильтр для продуктов",
+      "tooMuchScoreSKU": "Минимальное значение для успешности достижения не может быть больше количества SKU",
+      "zeroScoreSKU": "Минимальное значение для успешности достижения не может быть равно 0",
+      "no_access_to_KPI": "У вас нет доступа для просмотра данного KPI",
+      "noDuplicates": "Поле {fieldName} должно быть уникальным",
+      "fillAllAssigneesFields": "Необходимо заполнить все пустые поля с представителями",
+      "needsAssignees": "Необходимо добавить, по крайней мере, одного представителя для каждого этапа",
+      "needsActiveRewards": "Необходимо установить, по крайней мере, одно вознаграждение",
+      "rewardMustBeGteZero": "Вознаграждение должно быть больше или равно 0",
+      "noUsersInScope": "В этой области видимости нет пользователей",
+      "noScopes": "Области видимости отсутствуют. Добавьте хотя бы одну область видимости",
+      "noCategories": "Категории отсутствуют. Добавьте хотя бы одну категорию",
+      "achievementIsBoundToKPI": "Достижение с именем \"{name}\" связано с KPI",
+      "wrongStartTime": "Время начала должно быть равно времени окончания предыдущего сегмента",
+      "wrongEndTime": "Время окончания должно быть больше времени начала сегмента",
+      "sessionHasExpired": "Время сессии истекло. Для продолжения работы необходимо заново авторизироваться.",
+      "savingForPastPeriod": "Выберите текущий или будущий период времени"
+    }
+  },
+  "calendar": {
+    "rangeMode": "Режим выбора диапазона",
+    "on": "Включен",
+    "off": "Выключен",
+    "hint": "Удерживайте клавишу \u00abShift\u00bb",
+    "months": {
+      "0": "Январь",
+      "1": "Февраль",
+      "2": "Март",
+      "3": "Апрель",
+      "4": "Май",
+      "5": "Июнь",
+      "6": "Июль",
+      "7": "Август",
+      "8": "Cентябрь",
+      "9": "Октябрь",
+      "10": "Ноябрь",
+      "11": "Декабрь"
+    },
+    "weekdaysLong": {
+      "0": "Воскресенье",
+      "1": "Понедельник",
+      "2": "Вторник",
+      "3": "Среда",
+      "4": "Четверг",
+      "5": "Пятница",
+      "6": "Суббота"
+    },
+    "weekdaysShort": {
+      "0": "Вс",
+      "1": "Пн",
+      "2": "Вт",
+      "3": "Ср",
+      "4": "Чт",
+      "5": "Пт",
+      "6": "Сб"
+    }
+  },
+  "timePeriodBlock": {
+    "periodHeader": "Временной период:",
+    "valueHeader": "Значение временного периода:",
+    "initialMonthTitle": "месяц",
+    "periodList": {
+      "month": "месяц"
+    },
+    "monthSequence": {
+      "0": "Январь",
+      "1": "Февраль",
+      "2": "Март",
+      "3": "Апрель",
+      "4": "Май",
+      "5": "Июнь",
+      "6": "Июль",
+      "7": "Август",
+      "8": "Cентябрь",
+      "9": "Октябрь",
+      "10": "Ноябрь",
+      "11": "Декабрь"
+    }
+  },
+  "productsFilterBlock": {
+    "addFilterButtonTitle": "Добавить фильтр для продуктов",
+    "entityColumnHeader": "Тип фильтра:",
+    "attributeColumnHeader": "Атрибут фильтра:",
+    "valueColumnHeader": "Значение фильтра:",
+    "filterValuePlaceholder": "Введите значение фильтра",
+    "quantityColumnHeader": "Количество:",
+    "addFilterValue": "Добавить значение"
+  },
+  "SKUFilterBlock": {
+    "addFilterButtonTitle": "добавить SKU",
+    "skuColumnHeader": "Выберите TOP SKU:",
+    "skuPlaceholder": "Введите SKU код или имя",
+    "quantityColumnHeader": "Количество:",
+    "quantityNa": "Недоступно",
+    "quantityPlaceholder": "По умолчанию "
+  },
+  "storesFilterBlock": {
+    "addFilterButtonTitle": "Добавить фильтр для торговых точек",
+    "entityColumnHeader": "Тип фильтра:",
+    "attributeColumnHeader": "Атрибут фильтра:",
+    "valueColumnHeader": "Значение фильтра:",
+    "filterValuePlaceholder": "Введите значение фильтра",
+    "quantityColumnHeader": "Количество:",
+    "addFilterValue": "Добавить значение"
+  },
+  "hierarchyBlock": {
+    "itemColumnHeader": "Для кого установлены KPI:",
+    "checkboxColumnHeader": "Установить KPI:",
+    "incentivesColumnHeader": "Вознаграждение:",
+    "incentiveDefaultTitle": "нет вознаграждений",
+    "selectAll": "выбрать все",
+    "deselectAll": "убрать все"
+  },
+  "address": {
+    "street": "ул.{value}",
+    "building": "дом {value}",
+    "flat": "кв.{value}"
+  },
+  "rbac": {
+    "noRights": "у вас нет прав доступа к запрошенной странице"
+  },
+  "menu": {
+    "selectMenuItem": "Выберите подраздел"
+  },
+  "welcomeMessage": "Выберите раздел"
+}

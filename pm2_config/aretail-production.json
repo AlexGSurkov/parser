@@ -1,0 +1,103 @@
+{
+  "apps": [
+    {
+      "name": "GARDENIZE ARETAIL PRODUCTION IAPI01",
+      "script": "app.js",
+      "env": {
+        "PORT": 20000,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "aretail-production"
+      }
+    },
+    {
+      "name": "GARDENIZE ARETAIL PRODUCTION IAPI02",
+      "script": "app.js",
+      "env": {
+        "PORT": 20001,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "aretail-production"
+      }
+    },
+    {
+      "name": "GARDENIZE ARETAIL PRODUCTION BACKEND01",
+      "script": "app.js",
+      "env": {
+        "PORT": 21000,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "aretail-production"
+      }
+    },
+    {
+      "name": "GARDENIZE ARETAIL PRODUCTION BACKEND02",
+      "script": "app.js",
+      "env": {
+        "PORT": 21001,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "aretail-production"
+      }
+    },
+    {
+      "name": "GARDENIZE ARETAIL PRODUCTION BACKEND03",
+      "script": "app.js",
+      "env": {
+        "PORT": 21002,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "aretail-production"
+      }
+    },
+    {
+      "name": "GARDENIZE ARETAIL PRODUCTION STREAMAPI01",
+      "script": "app.js",
+      "env": {
+        "PORT": 22000,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "aretail-production"
+      }
+    },
+    {
+      "name": "GARDENIZE ARETAIL PRODUCTION STREAMAPI02",
+      "script": "app.js",
+      "env": {
+        "PORT": 22001,
+        "COMMON_VARIABLE": "true"
+      },
+      "max_memory_restart": "1500M",
+      "exec_mode": "fork_mode",
+      "env_production": {
+        "NODE_ENV": "production",
+        "NODE_ENV_PRODUCTION": "aretail-production"
+      }
+    }
+
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "code": "J01",
+    "name": "Супермаркет малый",
+    "manufacturerId": "1"
+  },
+  {
+    "id": 2,
+    "code": "M01",
+    "name": "Минимаркет",
+    "manufacturerId": "2"
+  }
+]

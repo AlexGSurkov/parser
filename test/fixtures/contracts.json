@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "counterparty": "ООО Дары востока",
+    "contractNumber": "JDE1828",
+    "paymentDelay": 7,
+    "storeId": 1,
+    "externalKey": "JDE1828",
+    "manufacturerId": "1"
+  },
+  {
+    "id": 2,
+    "counterparty": "ФЛП Намуйлик",
+    "contractNumber": "MNDLZ3265",
+    "paymentDelay": 17,
+    "storeId": 1,
+    "externalKey": "MNDLZ3265",
+    "manufacturerId": "2"
+  },
+  {
+    "id": 3,
+    "counterparty": "ООО Дары востока",
+    "contractNumber": "JDE9469",
+    "paymentDelay": 5,
+    "storeId": 2,
+    "externalKey": "JDE9469",
+    "manufacturerId": "1"
+  },
+  {
+    "id": 4,
+    "counterparty": "ФЛП Намуйлик",
+    "contractNumber": "MNDLZ9994",
+    "paymentDelay": 5,
+    "storeId": 3,
+    "externalKey": "MNDLZ9994",
+    "manufacturerId": "2"
+  },
+  {
+    "id": 5,
+    "counterparty": "ООО Дары востока",
+    "contractNumber": "JDE3977",
+    "paymentDelay": 8,
+    "storeId": 3,
+    "externalKey": "JDE3977",
+    "manufacturerId": "1"
+  }
+]

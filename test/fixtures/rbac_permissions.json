@@ -1,0 +1,23 @@
+[
+  {
+    "id": "hand_access",
+    "code": "hand_access",
+    "title": "hand_access",
+    "errorMessage": "hand access denied!",
+    "groupId": "test"
+  },
+  {
+    "id": "admin_access",
+    "code": "admin_access",
+    "title": "admin_access",
+    "errorMessage": "admin access denied!",
+    "groupId": "test"
+  },
+  {
+    "id": "sv_access",
+    "code": "sv_access",
+    "title": "sv_access",
+    "errorMessage": "sv access denied!",
+    "groupId": "test"
+  }
+]

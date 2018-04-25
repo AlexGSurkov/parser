@@ -6,7 +6,7 @@
  * request options (which impact the behavior of blueprint actions).
  *
  * You may also override any of these settings on a per-controller basis
- * by defining a '_config' key in your controller definition, and assigning it
+ * by defining a '_config' key in your controller defintion, and assigning it
  * a configuration object with overrides for the settings in this file.
  * A lot of the configuration options below affect so-called "CRUD methods",
  * or your controllers' `find`, `create`, `update`, and `destroy` actions.
@@ -24,6 +24,14 @@
  */
 
 module.exports.blueprints = {
+  actions: true,
+  shortcuts: false,
+  rest: false,
+  prefix: '',
+  restPrefix: '',
+  pluralize: false,
+  populate: false,
+  autoWatch: false
 
   /***************************************************************************
   *                                                                          *
@@ -69,7 +77,9 @@ module.exports.blueprints = {
   *                                                                          *
   ***************************************************************************/
 
-  // rest: true,
+
+//rest: true,
+
 
   /***************************************************************************
   *                                                                          *

@@ -1,0 +1,78 @@
+{
+  "main_menu": {
+    "users": {
+      "title": "пользователи",
+      "items": null
+    },
+    "clients": {
+      "title": "клиенты",
+      "items": null
+    },
+    "product_categories": {
+      "title": "продукты",
+      "items": null
+    },
+    "sales": {
+      "title": "продажи",
+      "items": null
+    },
+    "kpi": {
+      "title": "Метрики",
+      "items": {
+        "create": "создать",
+        "planning": "планирование",
+        "listing": "список"
+      }
+    },
+    "smart_filters": {
+      "title": "Умные фильтры",
+      "items": {
+        "create": "Создать"
+      }
+    },
+    "achievements": {
+      "title": "достижения",
+      "items": {
+        "create": "создать",
+        "settings": "настройки",
+        "listing": "список",
+        "time_machine": "time machine",
+        "store": "хранилище"
+      }
+    },
+    "accessRights": {
+      "title": "права доступа",
+      "items": {
+        "create": "создать роль",
+        "rolesList": "список ролей",
+        "usersRoles": "роли пользователей"
+      }
+    },
+    "resources": {
+      "title": "ресурсы",
+      "items": {
+        "scopes": "зоны",
+        "users": "пользователи"
+      }
+    },
+    "my_salary": {
+      "title": "моя зарплата",
+      "items": null
+    },
+    "miscellaneous_configuration": {
+      "title": "различные конфигурации",
+      "items": null
+    }
+  },
+  "user_settings_menu": {
+    "logout": {
+      "title": "выйти"
+    },
+    "settings": {
+      "title": "настройки"
+    },
+    "support": {
+      "title": "поддержка"
+    }
+  }
+}

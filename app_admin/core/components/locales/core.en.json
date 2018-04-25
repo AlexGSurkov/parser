@@ -1,0 +1,145 @@
+{
+  "stylized_container": {
+    "stylized_code_input": {
+      "name_input_title": "Name:",
+      "name_input_placeholder": "FORMULA TITLE",
+      "code_input_placeholder": "FORMULA CODE"
+    }
+  },
+  "header_block": {
+    "save_button_title": "save"
+  },
+  "popoverWindow": {
+    "messages": {
+      "no_internet": "No Internet connection. Check Internet access",
+      "server": "Error happens. Try again.\n Gardenize's hotline tel.:\n{phone}\n{time}",
+      "user_input": "Make sure of exact entries.\nReport the problem using Gardenize's hotline tel.:\n{phone}\n{time}",
+      "cannot_be_empty": "Field {field_name} cannot be empty",
+      "template_created": "Your template has been created",
+      "template_saved": "Changes were saved",
+      "dim_not_ready": "Dimensions are not ready yet, wait 10 secs",
+      "needs_users": "You should select at least one user or store from hierarchy",
+      "needs_SKU": "You should add at least one SKU",
+      "needs_filter": "You should add at least one filter of products",
+      "tooMuchScoreSKU": "Minimum score value can not exceed SKU quantity",
+      "zeroScoreSKU": "Minimum score value can not equal 0",
+      "no_access_to_KPI": "You don't have access to this KPI",
+      "noDuplicates": "Field {fieldName} must be unique",
+      "fillAllAssigneesFields": "You should fill out all empty assignees fields",
+      "needsAssignees": "You should select at least one assignee for each stage",
+      "needsActiveRewards": "You should set at least one reward",
+      "rewardMustBeGteZero": "Reward must be greater than or equal 0",
+      "noUsersInScope": "No users in this scope",
+      "noScopes": "Scopes are missing. Add at least one scope",
+      "noCategories": "Categories are missing. Add at least one category",
+      "achievementIsBoundToKPI": "Achievement with name \"{name}\" is bound to KPI",
+      "wrongStartTime": "Start time must be same as previous segment end time",
+      "wrongEndTime": "End time must be greater than segments start time",
+      "sessionHasExpired": "Session has expired. Login again to continue.",
+      "savingForPastPeriod": "Select current or future time period"
+    }
+  },
+  "calendar": {
+    "rangeMode": "Range mode",
+    "on": "On",
+    "off": "Off",
+    "hint": "Hold \u00abShift\u00bb key",
+    "months": {
+      "0": "January",
+      "1": "February",
+      "2": "March",
+      "3": "April",
+      "4": "May",
+      "5": "June",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December"
+    },
+    "weekdaysLong": {
+      "0": "Sunday",
+      "1": "Monday",
+      "2": "Tuesday",
+      "3": "Wednesday",
+      "4": "Thursday",
+      "5": "Friday",
+      "6": "Saturday"
+    },
+    "weekdaysShort": {
+      "0": "Su",
+      "1": "Mo",
+      "2": "Tu",
+      "3": "We",
+      "4": "Th",
+      "5": "Fr",
+      "6": "Sa"
+    }
+  },
+  "timePeriodBlock": {
+    "periodHeader": "Time Period:",
+    "valueHeader": "Time Period Value:",
+    "initialMonthTitle": "month",
+    "periodList": {
+      "month": "month"
+    },
+    "monthSequence": {
+      "0": "January",
+      "1": "February",
+      "2": "March",
+      "3": "April",
+      "4": "May",
+      "5": "June",
+      "6": "July",
+      "7": "August",
+      "8": "September",
+      "9": "October",
+      "10": "November",
+      "11": "December"
+    }
+  },
+  "productsFilterBlock": {
+    "addFilterButtonTitle": "add filter of products",
+    "entityColumnHeader": "Filter entity:",
+    "attributeColumnHeader": "Filter attribute:",
+    "valueColumnHeader": "Filter value:",
+    "filterValuePlaceholder": "Enter filter value",
+    "quantityColumnHeader": "Quantity:",
+    "addFilterValue": "Add value"
+  },
+  "SKUFilterBlock": {
+    "addFilterButtonTitle": "add SKU",
+    "skuColumnHeader": "Choose TOP SKU:",
+    "skuPlaceholder": "Enter SKU code or Name",
+    "quantityColumnHeader": "Quantity:",
+    "quantityNa": "N/A",
+    "quantityPlaceholder": "Default "
+  },
+  "storesFilterBlock": {
+    "addFilterButtonTitle": "add filter of stores",
+    "entityColumnHeader": "Filter entity:",
+    "attributeColumnHeader": "Filter attribute:",
+    "valueColumnHeader": "Filter value:"
+  },
+  "hierarchyBlock": {
+    "itemColumnHeader": "KPI is set for:",
+    "checkboxColumnHeader": "Set KPI:",
+    "incentivesColumnHeader": "Incentive:",
+    "incentiveDefaultTitle": "no incentive",
+    "selectAll": "select all",
+    "deselectAll": "deselect all"
+  },
+  "address": {
+    "street": "str.{value}",
+    "building": "build.{value}",
+    "flat": "flat {value}"
+  },
+  "rbac": {
+    "noRights": "you have not access to requested page"
+  },
+  "menu": {
+    "selectMenuItem": "Choose submenu item"
+  },
+  "welcomeMessage": "Choose tab to start"
+}

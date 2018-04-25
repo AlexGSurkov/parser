@@ -1,0 +1,145 @@
+{
+  "stylized_container": {
+    "stylized_code_input": {
+      "name_input_title": "Назва:",
+      "name_input_placeholder": "Назва формули",
+      "code_input_placeholder": "Код формули"
+    }
+  },
+  "header_block": {
+    "save_button_title": "Зберегти"
+  },
+  "popoverWindow": {
+    "messages": {
+      "no_internet": "Немає доступу до інтернету. Перевірте підключення",
+      "server": "Сталася помилка на сервері. Спробуйте ще раз.\nТел. гарячої лінії Gardenize:\n{phone}\n{time}",
+      "user_input": "Перевірте коректність введених данних.\nПовідомте про помилку на гарячу лінію Gardenize по тел.:\n{phone}\n{time}",
+      "cannot_be_empty": "Поле {field_name} має бути заповнене",
+      "template_created": "Шаблон успішно збережено",
+      "template_saved": "Зміни збережені",
+      "dim_not_ready": "Дані ще не готові, зачекайте 10 сек.",
+      "needs_users": "Необхідно обрати хоча б одного користувача чи торгову точку зі списку",
+      "needs_SKU": "Необхідно додати хоча б один SKU",
+      "needs_filter": "Необхідно додати хоча б один фільтр для продуктів",
+      "tooMuchScoreSKU": "Мінімальне значення для зарахування не може бути більше кількості SKU",
+      "zeroScoreSKU": "Мінімальне значення для виконання досягнення не може дорівнювати 0",
+      "no_access_to_KPI": "У вас нема доступу до перегляду данного KPI",
+      "noDuplicates": "Поле {fieldName} має бути унікальним",
+      "fillAllAssigneesFields": "Необхідно заповнити всі порожні поля з представниками",
+      "needsAssignees": "Необхідно додати хоча б одного представника для кожного етапу",
+      "needsActiveRewards": "Необхідно призначити хоча б одну винагороду",
+      "rewardMustBeGteZero": "Винагорода має бути більшою або дорівнювати 0",
+      "noUsersInScope": "В цій області видимості немає користувачів",
+      "noScopes": "Області видимості відсутні. Додайте хоча б одну область видимості",
+      "noCategories": "Категорії відсутні. Додайте хоча б одну категорію",
+      "achievementIsBoundToKPI": "Досягнення з ім'ям \"{name}\" пов'язане з KPI",
+      "wrongStartTime": "Час початку повинен дорівнювати часу закінчення попереднього сегмента",
+      "wrongEndTime": "Час закінчення повинен бути більше ніж час початку сегмента",
+      "sessionHasExpired": "Час сесії минув. Для продовження роботи необхідно знову авторизуватись.",
+      "savingForPastPeriod": "Оберіть поточний або майбутній період часу"
+    }
+  },
+  "calendar": {
+    "rangeMode": "Режим вибору діапазону",
+    "on": "Увімкнений",
+    "off": "Вимкнений",
+    "hint": "Утримуйте клавішу \u00abShift\u00bb",
+    "months": {
+      "0": "Січень",
+      "1": "Лютий",
+      "2": "Березень",
+      "3": "Квітень",
+      "4": "Травень",
+      "5": "Червень",
+      "6": "Липень",
+      "7": "Серпень",
+      "8": "Вересень",
+      "9": "Жовтень",
+      "10": "Листопад",
+      "11": "Грудень"
+    },
+    "weekdaysLong": {
+      "0": "Неділя",
+      "1": "Понеділок",
+      "2": "Вівторок",
+      "3": "Середа",
+      "4": "Четвер",
+      "5": "П'ятниця",
+      "6": "Субота"
+    },
+    "weekdaysShort": {
+      "0": "Нд",
+      "1": "Пн",
+      "2": "Вт",
+      "3": "Ср",
+      "4": "Чт",
+      "5": "Пт",
+      "6": "Сб"
+    }
+  },
+  "timePeriodBlock": {
+    "periodHeader": "Часовий період:",
+    "valueHeader": "Значення часового періоду:",
+    "initialMonthTitle": "місяць",
+    "periodList": {
+      "month": "місяць"
+    },
+    "monthSequence": {
+      "0": "Січень",
+      "1": "Лютий",
+      "2": "Березень",
+      "3": "Квітень",
+      "4": "Травень",
+      "5": "Червень",
+      "6": "Липень",
+      "7": "Серпень",
+      "8": "Вересень",
+      "9": "Жовтень",
+      "10": "Листопад",
+      "11": "Грудень"
+    }
+  },
+  "productsFilterBlock": {
+    "addFilterButtonTitle": "Додати фільтр для продуктів",
+    "entityColumnHeader": "Тип фільтру:",
+    "attributeColumnHeader": "Атрибут фільтра:",
+    "valueColumnHeader": "Значення фільтру:",
+    "filterValuePlaceholder": "Введіть значення фільтру",
+    "quantityColumnHeader": "Кількість:",
+    "addFilterValue": "Додати значення"
+  },
+  "SKUFilterBlock": {
+    "addFilterButtonTitle": "Додати SKU",
+    "skuColumnHeader": "Оберіть TOP SKU:",
+    "skuPlaceholder": "Введіть код SKU або ім'я",
+    "quantityColumnHeader": "Кількість:",
+    "quantityNa": "Недоступно",
+    "quantityPlaceholder": "За замовчуванням"
+  },
+  "storesFilterBlock": {
+    "addFilterButtonTitle": "Додати фільтр для торговельних точок",
+    "entityColumnHeader": "Тип фільтру:",
+    "attributeColumnHeader": "Атрибут фільтра:",
+    "valueColumnHeader": "Значення фільтру:"
+  },
+  "hierarchyBlock": {
+    "itemColumnHeader": "Для кого встановлені KPI:",
+    "checkboxColumnHeader": "Встановіть KPI:",
+    "incentivesColumnHeader": "Винагорода:",
+    "incentiveDefaultTitle": "немає винагороди",
+    "selectAll": "вибрати всі",
+    "deselectAll": "прибрати всі"
+  },
+  "address": {
+    "street": "вул.{value}",
+    "building": "буд.{value}",
+    "flat": "кв.{value}"
+  },
+  "rbac": {
+    "noRights": "у вас немає прав доступу до запитаної сторінки"
+  },
+  "menu": {
+    "selectMenuItem": "Оберіть підрозділ"
+  },
+  "welcomeMessage": "Оберіть розділ"
+}
