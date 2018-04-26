@@ -45,7 +45,7 @@ class SearchForm extends Component {
       }
     });
 
-    this.state == state;
+    this.state = state;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -67,7 +67,7 @@ class SearchForm extends Component {
 
   getForm() {
     return (
-      <div key={name} style={styles.formContainer}>
+      <div style={styles.formContainer}>
         {formFields.map(({name, type, options}, idx) =>
           type === 'select' ?
             <select
@@ -86,7 +86,6 @@ class SearchForm extends Component {
             <input
               style={styles.field}
               key={idx}
-              ref={name}
               type={type}
               value={this.state[name]}
               onChange={e => this.onChange(name, e)}

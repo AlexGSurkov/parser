@@ -93,9 +93,9 @@ class App extends Component {
   }
 }
 
-let PrivateRoute = ({component: Component, permission, ...rest}) => (
+let PrivateRoute = ({component: Component, permission, ...rest}) => ( //eslint-disable-line react/prop-types
   <Route
-  {...rest}
+    {...rest}
     render={props =>
       permission ?
         <Component {...props} /> :
@@ -105,18 +105,18 @@ let PrivateRoute = ({component: Component, permission, ...rest}) => (
             state: {from: props.location}
           }}
         />
-    }
+      }
   />
 );
 
 PrivateRoute.propTypes = {
-  location: PropTypes.object.isRequired,
-  component: PropTypes.element.isRequired,
+  location: PropTypes.object,
   permission: PropTypes.bool
 };
 
 PrivateRoute.defaultProps = {
-  permission: false
+  permission: false,
+  location: null
 };
 
 (function() {
