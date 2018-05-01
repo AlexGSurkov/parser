@@ -87,6 +87,11 @@ let routes = {
   'GET /api/search/lines': {
     controller: 'ParsingController',
     action: 'getLines'
+  },
+
+  'POST /api/container': {
+    controller: 'ContainerController',
+    action: 'create'
   }
 };
 

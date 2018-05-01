@@ -103,7 +103,7 @@ function searchAll() {
         for (var i = 0; i < elements.length; i++) {
           if (elements[i].tagName.toLowerCase() === 'h4') {
             locationIdx++;
-            cont.locations[locationIdx] = {location: elements[i].innerHTML.replace('<span class=""></span>', i), states: []};
+            cont.locations[locationIdx] = {location: elements[i].innerHTML.replace('<span class=""></span>', ''), states: []};
           }
           else {
             if (elements[i].className.indexOf('past') > -1) {

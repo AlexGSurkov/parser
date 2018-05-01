@@ -263,7 +263,7 @@ let UserProfileStore = Reflux.createStore({
 let UsersStore = Reflux.createStore({
 
   /**
-   * relative url to auth
+   * relative url to user
    */
   apiUrl: (apiPrefix.startsWith('/') ? apiPrefix.slice(1) : apiPrefix) + '/user',
 
@@ -312,7 +312,7 @@ let UsersStore = Reflux.createStore({
 let ParsingStore = Reflux.createStore({
 
   /**
-   * relative url to auth
+   * relative url to search
    */
   apiUrl: (apiPrefix.startsWith('/') ? apiPrefix.slice(1) : apiPrefix) + '/search',
 
@@ -354,6 +354,43 @@ let ParsingStore = Reflux.createStore({
       console.info(response);
 
       this.trigger({data: this.data});
+    }).catch(e => {
+      console.error(e);
+
+      AuthorizationStore.checkAuthError(e.message) || alert(e.message);
+    });
+  }
+
+});
+
+let ContainerStore = Reflux.createStore({
+
+  /**
+   * relative url to container
+   */
+  apiUrl: (apiPrefix.startsWith('/') ? apiPrefix.slice(1) : apiPrefix) + '/container',
+
+  init() {
+    this.listenTo(Actions.ActionsContainer.save, this.save);
+
+    this.resetStore();
+  },
+
+  resetStore() {
+    this.lines = {};
+  },
+
+  save(data) {
+    API.POST(`${this.apiUrl}`, AuthorizationStore.getAuthData('token'), data).then(response => {
+      if (response.status !== 'ok') {
+        throw new Error(response.errorMsg);
+      }
+
+      //this.data = response.data;
+      //
+      //console.info(response);
+      //
+      //this.trigger({data: this.data});
     }).catch(e => {
       console.error(e);
 
@@ -450,6 +487,7 @@ export default {
   UserProfileStore,
   UsersStore,
   ParsingStore,
+  ContainerStore,
   LoaderStore,
   PopoverWindowStore
 };

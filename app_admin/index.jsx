@@ -77,10 +77,7 @@ class App extends Component {
           <Loader />
           <Router>
             <div style={{position: 'relative', margin: '0 5%'}}>
-              <Menu
-                authorized={authorized}
-                admin={admin}
-              />
+              <Menu authorized={authorized} admin={admin} />
               <Route path={`${pathPrefix}/public`} component={Main} />
               <Route path={`${pathPrefix}/login`} component={Login} />
               <PrivateRoute path={`${pathPrefix}/profile`} permission={authorized} component={Profile} />

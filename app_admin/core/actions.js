@@ -22,6 +22,10 @@ const ActionsParsing = Reflux.createActions([
   'search'
 ]);
 
+const ActionsContainer = Reflux.createActions([
+  'save'
+]);
+
 const LoaderActions = Reflux.createActions([
   'setShow'
 ]);
@@ -37,6 +41,7 @@ export default {
   ActionsUser,
   ActionsUsers,
   ActionsParsing,
+  ActionsContainer,
   LoaderActions,
   ActionsPopoverWindow
 };

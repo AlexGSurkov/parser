@@ -221,7 +221,7 @@ function containerDetails() {
             }
 
             location.states.push({
-              state: elements[i].children[0].innerHTML,
+              state: [elements[i].children[0].innerHTML],
               date: elements[i].children[2].innerHTML,
               voyage: {
                 href: elements[i].children[3].children[0].href,
