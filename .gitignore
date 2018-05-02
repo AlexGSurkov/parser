@@ -123,5 +123,6 @@ tasks/register/jsonGenerator.js
 /api/models/Test.js
 tasks/apiRequests/*
 tasks/dataMonitoring/logs.json
+config/jwt.js
 .vscode
 jsconfig.json
