@@ -377,7 +377,7 @@ let ContainerStore = Reflux.createStore({
   },
 
   resetStore() {
-    this.lines = {};
+    this.actionResult = null;
   },
 
   save(data) {
@@ -386,11 +386,13 @@ let ContainerStore = Reflux.createStore({
         throw new Error(response.errorMsg);
       }
 
+      //console.log('save result', response);
+
       //this.data = response.data;
       //
       //console.info(response);
       //
-      //this.trigger({data: this.data});
+      this.trigger({actionResult: 'saved'});
     }).catch(e => {
       console.error(e);
 

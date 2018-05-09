@@ -78,7 +78,7 @@ function searchAll() {
                 }
                 // ETA
                 if (sub2[j].className === 'ETA-block') {
-                  container.eta = sub2[j].innerHTML;
+                  container.eta = {date: sub2[j].innerHTML};
                 }
               }
             } else {
@@ -127,9 +127,9 @@ function searchAll() {
             }
 
             if (cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state.length === 4) {
-              cont.locations[locationIdx].voyage = cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state[3];
-              cont.locations[locationIdx].voyage = {
-                number: cont.locations[locationIdx].voyage.substring(cont.locations[locationIdx].voyage.indexOf(':') + 2)
+              cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage = cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state[3];
+              cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage = {
+                number: cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage.substring(cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage.indexOf(':') + 2)
               };
               cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state.pop();
             }

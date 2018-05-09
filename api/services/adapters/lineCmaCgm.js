@@ -116,7 +116,7 @@ function containerDetails() {
           locations: [],
           number: '',
           type: '',
-          eta: '',
+          eta: {},
           currentState: []
         }]
       };

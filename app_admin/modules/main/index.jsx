@@ -24,6 +24,7 @@ class Main extends Component {
     this.unsubscribes = [];
 
     this.state = {
+      line: '',
       lines: [],
       data: null,
       detailsIdx: -1,
@@ -38,6 +39,7 @@ class Main extends Component {
   componentWillMount() {
     this.unsubscribes.push(CoreStores.ParsingStore.listen(data => this.setData(data)));
     this.unsubscribes.push(CoreStores.AuthorizationStore.listen(data => this.setAuthData(data)));
+    this.unsubscribes.push(CoreStores.ContainerStore.listen(data => this.setActionResult(data)));
   }
 
   componentDidMount() {
@@ -56,12 +58,21 @@ class Main extends Component {
     this.setState({authorized: Boolean(token)});
   }
 
+  setActionResult({actionResult}) {
+    actionResult === 'saved' && this.setState({
+      allChecked: false,
+      selectedRows: new Set()
+    });
+  }
+
   search({line, number}) {
     this.setState({
       detailsIdx: -1,
       allChecked: false,
-      selectedRows: new Set()
+      selectedRows: new Set(),
+      line
     });
+
     CoreActions.ActionsParsing.search(line, number);
   }
 
@@ -70,6 +81,18 @@ class Main extends Component {
       allChecked: !this.state.allChecked,
       selectedRows: this.state.allChecked ? new Set() : new Set(new Array(this.state.data.containers.length).fill(null).map((val, idx) => idx))
     });
+  }
+
+  save() {
+    const {billOfLadingNumber, containers} = this.state.data,
+      {line} = this.state,
+      data = containers.map(container => {
+        Object.assign(container, {billOfLadingNumber, line});
+
+        return container;
+      });
+
+    CoreActions.ActionsContainer.save(data);
   }
 
   selectRow(idx) {
@@ -83,16 +106,16 @@ class Main extends Component {
   getContainers() {
     const {containers} = this.state.data || {};
 
-    const rows = containers ? containers.map(({currentState, number, type}, idx) => (
+    const rows = containers ? containers.map(({currentState, number, type, locations}, idx) => (
       <div key={idx} style={styles.rowContainer}>
         <span style={styles.number}>{number}</span>
         <span style={styles.type}>{type}</span>
         <span style={styles.currentState}>{currentState.join('  ')}</span>
         <span
-          style={{...styles.showDetails, textDecoration: this.state.detailsIdx === idx ? 'none' : 'underline'}}
-          onClick={() => this.clickDetails(idx)}
+          style={{...styles.showDetails, textDecoration: this.state.detailsIdx === idx || !locations.length ? 'none' : 'underline'}}
+          onClick={() => locations.length && this.clickDetails(idx)}
         >
-          {this.state.detailsIdx === idx ? 'Hide Details' : 'Show Details'}
+          {locations.length ? this.state.detailsIdx === idx ? 'Hide Details' : 'Show Details' : 'No Details'}
         </span>
         {this.state.authorized ?
           <span style={styles.select}>
@@ -197,7 +220,7 @@ class Main extends Component {
           <div style={styles.footer}>
             <button
               style={styles.button}
-              onClick={() => this.save}
+              onClick={() => this.save()}
               disabled={!Boolean(this.state.selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
             >
               {`Save To Database (${this.state.selectedRows.size})`}

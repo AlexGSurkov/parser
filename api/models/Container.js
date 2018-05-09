@@ -5,65 +5,43 @@ module.exports = {
       primaryKey: true,
       defaultValue: undefined
     },
-    login: {
-      type: Sequelize.STRING,
-      unique: true
-    },
-    password: {
-      type: Sequelize.STRING
-    },
-    role: {
+    userId: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    firstName: {
+    number: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    lastName: {
+    line: {
       type: Sequelize.STRING,
       allowNull: false
     },
-    middleName: {
-      type: Sequelize.STRING
-    },
-    email: {
-      type: Sequelize.STRING
-    },
-    phone: {
+    type: {
       type: Sequelize.STRING,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
-    address: {
-      type: Sequelize.STRING
+    billOfLadingNumber: {
+      type: Sequelize.STRING,
+      defaultValue: '',
+      allowNull: false
     },
-    active: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: true,
+    eta: {
+      type: Sequelize.JSONB,
+      allowNull: false
+    },
+    currentState: {
+      type: Sequelize.JSONB,
       allowNull: false
     }
   },
 
   associations() {
-    //User.belongsToMany(User, {
-    //  foreignKey: 'parentId',
-    //  through: 'UserParent',
-    //  as: 'children'
-    //});
-    //
-    //User.belongsToMany(User, {
-    //  foreignKey: 'userId',
-    //  through: 'UserParent',
-    //  as: 'parents'
-    //});
-    //
-    //User.belongsToMany(Store, {
-    //  foreignKey: 'userId',
-    //  through: 'UserStore',
-    //  as: 'stores'
-    //});
-    //
+    Container.hasMany(Location, {
+      foreignKey: 'containerId',
+      as: 'locations'
+    });
+
     //User.belongsToMany(Manufacturer, {
     //  foreignKey: 'userId',
     //  through: 'UserManufacturer',
@@ -100,7 +78,8 @@ module.exports = {
 
   options: {
     timestamps: true,
-    tableName: 'users',
+    tableName: 'containers',
     hooks: {}
   }
 };
+
