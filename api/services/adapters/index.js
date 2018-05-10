@@ -1,5 +1,5 @@
 const maersk = require('./lineMaersk'),
-  cmacgm = require('./lineCMACGM'),
+  cmacgm = require('./lineCmaCgm'),
   zim = require('./lineZIM');
 
 module.exports = {
