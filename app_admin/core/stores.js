@@ -372,12 +372,19 @@ let ContainerStore = Reflux.createStore({
 
   init() {
     this.listenTo(Actions.ActionsContainer.save, this.save);
+    this.listenTo(Actions.ActionsContainer.getContainers, this.getContainers);
+    this.listenTo(Actions.ActionsContainer.filter, this.filter);
 
     this.resetStore();
   },
 
   resetStore() {
     this.actionResult = null;
+    this.filters = {
+      number: '',
+      billOfLading: '',
+      line: ''
+    };
   },
 
   save(data) {
@@ -398,6 +405,46 @@ let ContainerStore = Reflux.createStore({
 
       AuthorizationStore.checkAuthError(e.message) || alert(e.message);
     });
+  },
+
+  getContainers() {
+    API.GET(`${this.apiUrl}/${AuthorizationStore.getAuthData('userId')}`, AuthorizationStore.getAuthData('token')).then(response => {
+      if (response.status !== 'ok') {
+        throw new Error(response.errorMsg);
+      }
+
+      this.data = response.data;
+
+      console.info(response);
+
+      this.trigger({data: this.data});
+    }).catch(e => {
+      console.error(e);
+
+      AuthorizationStore.checkAuthError(e.message) || alert(e.message);
+    });
+  },
+
+  filter({number, billOfLadingNumber, line}) {
+
+    this.filters = {
+      number,
+      billOfLadingNumber,
+      line
+    };
+
+    const data = number || billOfLadingNumber || line ? this.data.filter(container => {
+      let filtered = true;
+
+      filtered && number && (filtered = container.number === number);
+      filtered && billOfLadingNumber && (filtered = container.billOfLadingNumber === billOfLadingNumber);
+      filtered && line && (filtered = container.line === line);
+
+      return filtered;
+    }) : this.data;
+
+    this.trigger({data});
+
   }
 
 });

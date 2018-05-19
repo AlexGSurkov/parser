@@ -30,6 +30,11 @@ const menuItems = [
     permission: ''
   },
   {
+    path: 'shipments',
+    title: 'My Shipments',
+    permission: 'authorized'
+  },
+  {
     path: 'users',
     title: 'Users List',
     permission: 'admin'
@@ -111,6 +116,6 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    width: 85
+    width: 90
   }
 };

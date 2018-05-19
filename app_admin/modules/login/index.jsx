@@ -43,24 +43,37 @@ class Login extends Component {
   }
 
   login() {
-    const {from} = this.props.location.state || {from: {pathname: `${pathPrefix}/`}};
+    if (this.refs.login.value.trim() && this.refs.password.value.trim()) {
+      const {from} = this.props.location.state || {from: {pathname: `${pathPrefix}/`}};
 
-    CoreActions.ActionsAuth.performAuth(this.refs.login.value, this.refs.password.value, errorMsg => {
-      if (!errorMsg) {
-        if (this.mounted) {
-          this.setState({containerHeight: -containerHeight - containerShadow}, () => {
-            setTimeout(() => this.props.history.push(from), 600);
-          });
-        } else {
-          this.props.history.push(from);
+      CoreActions.ActionsAuth.performAuth(this.refs.login.value.trim(), this.refs.password.value.trim(), errorMsg => {
+        if (!errorMsg) {
+          if (this.mounted) {
+            this.setState({containerHeight: -containerHeight - containerShadow}, () => {
+              setTimeout(() => this.props.history.push(from), 600);
+            });
+          } else {
+            this.props.history.push(from);
+          }
+
+          return;
         }
 
-        return;
-      }
+        //this.handleAuthError(errorMsg);
+        this.refs.password.value = '';
+      });
+    }
+  }
 
-      //this.handleAuthError(errorMsg);
-      this.refs.password.value = '';
-    });
+  onKeyDown(e) {
+    if (e.keyCode === 13) {
+      e.stopPropagation();
+
+      e.target === this.refs.login && e.target.value.trim().length && this.refs.password.focus();
+
+      e.target === this.refs.password && this.login();
+    }
+
   }
 
   render() {
@@ -70,8 +83,8 @@ class Login extends Component {
 
     return (
       <div style={{...styles.container, top: this.state.containerHeight}}>
-        <input ref="login" type="text" defaultValue={'admin'} />
-        <input ref="password" type="password" defaultValue={'123456'} />
+        <input ref="login" type="text" defaultValue={'admin'} onKeyDown={e => this.onKeyDown(e)}/>
+        <input ref="password" type="password" defaultValue={'123456'} onKeyDown={e => this.onKeyDown(e)} />
         <button onClick={() => this.login()}>Sign in</button>
       </div>
     );

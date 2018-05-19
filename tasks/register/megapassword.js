@@ -2,7 +2,7 @@
 
 module.exports = function (grunt) {
 
-  grunt.registerTask('megapassword', password => {
+  grunt.registerTask('megapassword', function(password) {
     const done = this.async(),
       bcrypt = require('bcrypt-nodejs'),
       fs = require('fs');

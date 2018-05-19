@@ -5,7 +5,7 @@ module.exports = {
       primaryKey: true,
       defaultValue: undefined
     },
-    userId: {
+    containerId: {
       type: Sequelize.STRING,
       allowNull: false
     },

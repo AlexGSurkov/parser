@@ -19,7 +19,7 @@ module.exports = {
             userId
           },
           attribute: ['id', 'number', 'userId']
-        }).then(result => result.map(({id, number, userId}) => ({id, number, userId})));
+        });
 
       let forUpdate = req.body.filter(container => exists.find(({number}) => number === container.number)),
         forCreate = req.body.filter(container => !exists.find(({number}) => number === container.number));
@@ -43,6 +43,31 @@ module.exports = {
       });
 
       res.jsonOk();
+    } catch (e) {
+      res.jsonBad(e.message);
+    }
+  },
+
+  async find(req, res) {
+    try {
+      const {userId} = await JWTService.getPayloadData(req), //eslint-disable-line no-unused-vars
+        requestUserId = req.param('userId');
+
+      //todo
+      //check if requestUserId !== userId & authorised user is admin
+
+      const containers = await Container.findAll({
+        where: {
+          userId: requestUserId
+        },
+        include: [{
+          model: Location,
+          as: 'locations',
+          attributes: ['location', 'states']
+        }]
+      });
+
+      res.jsonOk(containers);
     } catch (e) {
       res.jsonBad(e.message);
     }

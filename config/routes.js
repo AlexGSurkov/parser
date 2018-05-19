@@ -89,6 +89,11 @@ let routes = {
     action: 'getLines'
   },
 
+  'GET /api/container/:userId': {
+    controller: 'ContainerController',
+    action: 'find'
+  },
+
   'POST /api/container': {
     controller: 'ContainerController',
     action: 'create'

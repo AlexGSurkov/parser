@@ -71,6 +71,6 @@ ALTER TABLE ONLY users
   ADD CONSTRAINT users_login_key UNIQUE (login);
 
 INSERT INTO users (id, login,"firstName", password, role, phone, "createdAt", "updatedAt")
-VALUES (1, 'admin', 'Administrator', '$2a$08$8/sQarmhc1WMkZluOvungemNum2lHoZ.T7iznS66qEKmK/p8bJoF6', 'admin', '1111111111', null, null);
+VALUES (1, 'admin', 'Administrator', '$2a$08$7fMGmMiOnxpQASAcfWJS8.cVyBrmVchnR.8eL./7UW/1wCj4AwtYi', 'admin', '1111111111', null, null);
 
 COMMIT;

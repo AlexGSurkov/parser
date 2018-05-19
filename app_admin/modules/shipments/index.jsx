@@ -7,7 +7,7 @@ import {FormattedMessage, injectIntl} from 'react-intl'; //eslint-disable-line n
 import CoreStores from 'core/stores';
 import CoreActions from 'core/actions';
 
-import SearchForm from './components/searchForm';
+import FiltersForm from './components/filtersForm';
 
 //const localePrefix = 'main';
 
@@ -16,7 +16,7 @@ const propTypes = {
     //history: PropTypes.object.isRequired
   };
 
-class Main extends Component {
+class Shipments extends Component {
 
   constructor() {
     super();
@@ -24,93 +24,52 @@ class Main extends Component {
     this.unsubscribes = [];
 
     this.state = {
-      line: '',
       lines: [],
       data: null,
       detailsIdx: -1,
       allChecked: false,
-      selectedRows: new Set(),
-      authorized: Boolean(CoreStores.AuthorizationStore.getAuthData('token', ''))
+      selectedRows: new Set()
     };
 
-    this.search = this.search.bind(this);
   }
 
   componentWillMount() {
-    this.unsubscribes.push(CoreStores.ParsingStore.listen(data => this.setData(data)));
-    this.unsubscribes.push(CoreStores.AuthorizationStore.listen(data => this.setAuthData(data)));
-    this.unsubscribes.push(CoreStores.ContainerStore.listen(data => this.setActionResult(data)));
+    this.unsubscribes.push(CoreStores.ParsingStore.listen(data => this.setLines(data)));
+    this.unsubscribes.push(CoreStores.ContainerStore.listen(data => this.setData(data)));
   }
 
   componentDidMount() {
     CoreActions.ActionsParsing.getLines();
+    CoreActions.ActionsContainer.getContainers();
   }
 
   componentWillUnmount() {
     this.unsubscribes.forEach(unsubscribe => unsubscribe());
   }
 
+  setLines({lines}) {
+    this.setState({lines});
+  }
+
   setData(data) {
-    this.setState(data);
-  }
-
-  setAuthData({token}) {
-    this.setState({authorized: Boolean(token)});
-  }
-
-  setActionResult({actionResult}) {
-    actionResult === 'saved' && this.setState({
+    this.setState({
+      ...data,
+      detailsIdx: -1,
       allChecked: false,
       selectedRows: new Set()
     });
   }
 
-  search({line, number}) {
-    this.setState({
-      detailsIdx: -1,
-      allChecked: false,
-      selectedRows: new Set(),
-      line
-    });
-
-    CoreActions.ActionsParsing.search(line, number);
-  }
-
-  clickAllChecked() {
-    this.setState({
-      allChecked: !this.state.allChecked,
-      selectedRows: this.state.allChecked ? new Set() : new Set(new Array(this.state.data.containers.length).fill(null).map((val, idx) => idx))
-    });
-  }
-
-  save() {
-    const {billOfLadingNumber, containers} = this.state.data,
-      {line} = this.state,
-      data = containers.filter((container, idx) => this.state.selectedRows.has(idx)).map(container => {
-        Object.assign(container, {billOfLadingNumber, line});
-
-        return container;
-      });
-
-    CoreActions.ActionsContainer.save(data);
-  }
-
-  selectRow(idx) {
-    let {selectedRows} = this.state;
-
-    selectedRows.has(idx) ? selectedRows.delete(idx) : selectedRows.add(idx);
-
-    this.setState({allChecked: false, selectedRows});
-  }
-
   getContainers() {
-    const {containers} = this.state.data || {};
+    const containers = this.state.data || [];
 
-    const rows = containers ? containers.map(({currentState, number, type, locations}, idx) => (
+    const rows = containers ? containers.map(({currentState, number, billOfLadingNumber, line, type, locations}, idx) => (
       <div key={idx} style={styles.rowContainer}>
         <span style={styles.number}>{number}</span>
-        <span style={styles.type}>{type}</span>
-        <span style={styles.currentState}>{currentState.join('  ')}</span>
+        <span style={styles.number}>{billOfLadingNumber}</span>
+        <span style={styles.number}>{line}</span>
+        <span style={styles.type} title={type}>{type}</span>
+        <span style={styles.currentState} title={currentState.join('  ')}>{currentState.join('  ')}</span>
         <span
           style={{
             ...styles.showDetails,
@@ -121,16 +80,14 @@ class Main extends Component {
         >
           {locations.length ? this.state.detailsIdx === idx ? 'Hide Details' : 'Show Details' : 'No Details'}
         </span>
-        {this.state.authorized ?
-          <span style={styles.select}>
-            <input
-              name="allSelect"
-              type="checkbox"
-              checked={this.state.selectedRows.has(idx)}
-              onChange={() => this.selectRow(idx)}
-            />
-          </span> : null
-        }
+        <span style={styles.select}>
+          <input
+            name="allSelect"
+            type="checkbox"
+            checked={this.state.selectedRows.has(idx)}
+            onChange={() => this.selectRow(idx)}
+          />
+        </span>
       </div>
     )) : [];
 
@@ -142,7 +99,7 @@ class Main extends Component {
   }
 
   getDetails() {
-    const details = this.state.data.containers[this.state.detailsIdx].locations;
+    const details = this.state.data[this.state.detailsIdx].locations;
 
     return (
       <div key={`${this.state.detailsIdx}_details`} style={styles.detailsContainer}>
@@ -180,26 +137,26 @@ class Main extends Component {
   }
 
   getTable() {
-    const {containers} = this.state.data || {};
+    const containers = this.state.data || [];
 
     return [
       <h4 key="table-header">{this.getTitle()}</h4>,
       containers && containers.length ?
         <div key="table-column-title" style={{...styles.rowContainer, borderBottom: '1px solid'}}>
           <span style={styles.number}>Number</span>
+          <span style={styles.number}>Bill of Lading</span>
+          <span style={styles.number}>Line</span>
           <span style={styles.type}>Type</span>
           <span style={styles.currentState}>Current State</span>
           <span style={styles.showDetails}></span>
-          {this.state.authorized ?
-            <span style={styles.select}>
-              <input
-                name="allSelect"
-                type="checkbox"
-                checked={this.state.allChecked}
-                onChange={() => this.clickAllChecked()}
-              />
-            </span> : null
-          }
+          <span style={styles.select}>
+            <input
+              name="allSelect"
+              type="checkbox"
+              checked={this.state.allChecked}
+              onChange={() => this.clickAllChecked()}
+            />
+          </span>
         </div> : null,
       ...this.getContainers()
     ];
@@ -209,25 +166,62 @@ class Main extends Component {
     this.state.detailsIdx === detailsIdx ? this.setState({detailsIdx: -1}) : this.setState({detailsIdx});
   }
 
+  selectRow(idx) {
+    let {selectedRows} = this.state;
+
+    selectedRows.has(idx) ? selectedRows.delete(idx) : selectedRows.add(idx);
+
+    this.setState({allChecked: false, selectedRows});
+  }
+
+  clickAllChecked() {
+    this.setState({
+      allChecked: !this.state.allChecked,
+      selectedRows: this.state.allChecked ? new Set() : new Set(new Array(this.state.data.length).fill(null).map((val, idx) => idx))
+    });
+  }
+
+  refresh() {
+    /* not released yet */
+  }
+
+  delete() {
+    if (this.state.selectedRows.size && confirm(`Do you realy want to delete ${this.state.selectedRows.size} container(s)?`)) {
+      //todo delete actoin
+
+      this.setState({allChecked: false, selectedRows: new Set()});
+    }
+  }
+
   render() {
-    const {containers} = this.state.data || {};
+    const containers = this.state.data || {};
 
     return (
       <div style={styles.container}>
-        <h3>Main</h3>
-        <SearchForm
+        <h3>My Shipments</h3>
+        <FiltersForm
           lines={this.state.lines}
-          onSearch={this.search}
+          onFilter={filters => CoreActions.ActionsContainer.filter(filters)}
         />
         {this.getTable()}
-        {this.state.authorized && containers && containers.length ?
+        {containers && containers.length ?
           <div style={styles.footer}>
             <button
-              style={styles.button}
-              onClick={() => this.save()}
+              style={{
+                ...styles.button,
+                marginRight: 10
+              }}
+              onClick={() => this.delete()}
               disabled={!Boolean(this.state.selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
             >
-              {`Save To Database (${this.state.selectedRows.size})`}
+              {`Delete (${this.state.selectedRows.size})`}
+            </button>
+            <button
+              style={styles.button}
+              onClick={() => this.refresh()}
+              disabled={!Boolean(this.state.selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
+            >
+              {`Data refresh (${this.state.selectedRows.size})`}
             </button>
           </div> : null
         }
@@ -236,9 +230,9 @@ class Main extends Component {
   }
 }
 
-Main.propTypes = propTypes;
+Shipments.propTypes = propTypes;
 
-export default injectIntl(Main);
+export default injectIntl(Shipments);
 
 const styles = {
   container: {
@@ -246,7 +240,7 @@ const styles = {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
-    width: 800
+    width: 1100
   },
 
   rowContainer: {

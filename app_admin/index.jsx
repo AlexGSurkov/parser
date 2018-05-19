@@ -23,6 +23,7 @@ import Main from './modules/main/';
 import Login from './modules/login/';
 import Profile from './modules/profile/';
 import Users from './modules/users/';
+import Shipments from './modules/shipments/';
 
 /**
  * Main Components
@@ -82,6 +83,7 @@ class App extends Component {
               <Route path={`${pathPrefix}/login`} component={Login} />
               <PrivateRoute path={`${pathPrefix}/profile`} permission={authorized} component={Profile} />
               <PrivateRoute path={`${pathPrefix}/users`} permission={authorized && admin} component={Users} />
+              <PrivateRoute path={`${pathPrefix}/shipments`} permission={authorized} component={Shipments} />
             </div>
           </Router>
         </div>
