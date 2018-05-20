@@ -374,6 +374,7 @@ let ContainerStore = Reflux.createStore({
     this.listenTo(Actions.ActionsContainer.save, this.save);
     this.listenTo(Actions.ActionsContainer.getContainers, this.getContainers);
     this.listenTo(Actions.ActionsContainer.filter, this.filter);
+    this.listenTo(Actions.ActionsContainer.delete, this.delete);
 
     this.resetStore();
   },
@@ -417,7 +418,7 @@ let ContainerStore = Reflux.createStore({
 
       console.info(response);
 
-      this.trigger({data: this.data});
+      this.filter(this.filters);
     }).catch(e => {
       console.error(e);
 
@@ -445,6 +446,23 @@ let ContainerStore = Reflux.createStore({
 
     this.trigger({data});
 
+  },
+
+  delete(ids, userId = AuthorizationStore.getAuthData('userId')) {
+    API.DELETE(`${this.apiUrl}/${userId}?ids=${JSON.stringify(ids)}`, AuthorizationStore.getAuthData('token'))
+    .then(response => {
+      if (response.status !== 'ok') {
+        throw new Error(response.errorMsg);
+      }
+
+      this.data = response.data;
+
+      this.getContainers();
+    }).catch(e => {
+      console.error(e);
+
+      AuthorizationStore.checkAuthError(e.message) || alert(e.message);
+    });
   }
 
 });

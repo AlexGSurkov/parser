@@ -50,11 +50,13 @@ module.exports = {
 
   async find(req, res) {
     try {
-      const {userId} = await JWTService.getPayloadData(req), //eslint-disable-line no-unused-vars
+      const {userId, role} = await JWTService.getPayloadData(req),
         requestUserId = req.param('userId');
 
-      //todo
-      //check if requestUserId !== userId & authorised user is admin
+      if (userId !== requestUserId && role !== 'admin') {
+        res.jsonBad(`You can't looking for containers of other user...`);
+        return;
+      }
 
       const containers = await Container.findAll({
         where: {
@@ -68,6 +70,43 @@ module.exports = {
       });
 
       res.jsonOk(containers);
+    } catch (e) {
+      res.jsonBad(e.message);
+    }
+  },
+
+  async delete(req, res) {
+    try {
+      const {userId, role} = await JWTService.getPayloadData(req),
+        requestUserId = req.param('userId'),
+        ids = JSON.parse(req.param('ids'));
+
+      if (userId !== requestUserId && role !== 'admin') {
+        res.jsonBad(`You can't delete containers of other user...`);
+        return;
+      }
+
+      const id = await Container.findAll({
+          where: {
+            userId: requestUserId,
+            id: ids
+          },
+          attributes: ['id']
+        }).map(({id}) => id);
+
+      if (id && id.length) {
+        await Location.destroy({
+          where: {containerId: id}
+        });
+
+        const affectedRows = await Container.destroy({
+          where: {id}
+        });
+
+        res.jsonOk(affectedRows);
+      }
+
+      res.jsonBad('Nothing to delete!');
     } catch (e) {
       res.jsonBad(e.message);
     }

@@ -25,7 +25,8 @@ const ActionsParsing = Reflux.createActions([
 const ActionsContainer = Reflux.createActions([
   'save',
   'getContainers',
-  'filter'
+  'filter',
+  'delete'
 ]);
 
 const LoaderActions = Reflux.createActions([

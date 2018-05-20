@@ -187,7 +187,11 @@ class Shipments extends Component {
 
   delete() {
     if (this.state.selectedRows.size && confirm(`Do you realy want to delete ${this.state.selectedRows.size} container(s)?`)) {
-      //todo delete actoin
+      let ids = [];
+
+      this.state.selectedRows.forEach(idx => ids.push(this.state.data[idx].id));
+
+      CoreActions.ActionsContainer.delete(ids);
 
       this.setState({allChecked: false, selectedRows: new Set()});
     }

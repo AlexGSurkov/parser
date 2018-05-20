@@ -97,6 +97,11 @@ let routes = {
   'POST /api/container': {
     controller: 'ContainerController',
     action: 'create'
+  },
+
+  'DELETE /api/container/:userId': {
+    controller: 'ContainerController',
+    action: 'delete'
   }
 };
 

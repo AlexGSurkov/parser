@@ -142,6 +142,10 @@ function searchAll() {
       //console.error('Reference ' + searchNumber + ' is not valid.');
     }
 
+    if (result.id) {
+      delete result.id;
+    }
+
     return result;
   } catch(e) {
     //console.error(e.message);
