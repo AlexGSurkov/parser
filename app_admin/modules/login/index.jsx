@@ -59,6 +59,7 @@ class Login extends Component {
           return;
         }
 
+        alert(errorMsg);
         //this.handleAuthError(errorMsg);
         this.refs.password.value = '';
       });

@@ -25,7 +25,7 @@ class Shipments extends Component {
 
     this.state = {
       lines: [],
-      data: null,
+      data: [],
       detailsIdx: -1,
       allChecked: false,
       selectedRows: new Set()
@@ -118,29 +118,11 @@ class Shipments extends Component {
     );
   }
 
-  getTitle() {
-    const {billOfLadingNumber, shipmentNumber, containers} = this.state.data || {};
-
-    if (billOfLadingNumber) {
-      return `Bill of Lading Number: ${billOfLadingNumber}`;
-    }
-
-    if (shipmentNumber) {
-      return `Shipment Number: ${shipmentNumber}`;
-    }
-
-    if (containers && containers.length === 1) {
-      return `Container Number: ${containers[0].number}`;
-    }
-
-    return this.state.data ? 'No result' : '';
-  }
-
   getTable() {
     const containers = this.state.data || [];
 
     return [
-      <h4 key="table-header">{this.getTitle()}</h4>,
+      <h4 key="table-header">{this.state.data.length ? '' : 'No result'}</h4>,
       containers && containers.length ?
         <div key="table-column-title" style={{...styles.rowContainer, borderBottom: '1px solid'}}>
           <span style={styles.number}>Number</span>
@@ -182,7 +164,7 @@ class Shipments extends Component {
   }
 
   refresh() {
-    /* not released yet */
+    alert('not released yet...');
   }
 
   delete() {

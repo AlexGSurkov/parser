@@ -448,7 +448,7 @@ let ContainerStore = Reflux.createStore({
 
   },
 
-  delete(ids, userId = AuthorizationStore.getAuthData('userId')) {
+  delete(ids, userId = AuthorizationStore.getUserId()) {
     API.DELETE(`${this.apiUrl}/${userId}?ids=${JSON.stringify(ids)}`, AuthorizationStore.getAuthData('token'))
     .then(response => {
       if (response.status !== 'ok') {
