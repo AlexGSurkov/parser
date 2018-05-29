@@ -106,8 +106,14 @@ class Shipments extends Component {
         {details.map((location, idx) => (
           <div key={idx}>
             <h4>{location.location}</h4>
-            {location.states.map(({date, state}, idx) => (
-              <div key={idx} style={styles.stateContainer}>
+            {location.states.map(({date, state, period}, idx) => (
+              <div
+                key={idx}
+                style={{
+                  ...styles.stateContainer,
+                  color: period === 'current' ? '#ff0000' : 'none'
+                }}
+              >
                 <span style={styles.stateDate}>{date}</span>
                 <span style={styles.stateState}>{state.filter(st => st.length).join(', ')}</span>
               </div>
@@ -164,7 +170,15 @@ class Shipments extends Component {
   }
 
   refresh() {
-    alert('not released yet...');
+    if (this.state.selectedRows.size) {
+      let ids = [];
+
+      this.state.selectedRows.forEach(idx => ids.push(this.state.data[idx].id));
+
+      CoreActions.ActionsContainer.refresh(ids);
+
+      this.setState({allChecked: false, selectedRows: new Set()});
+    }
   }
 
   delete() {

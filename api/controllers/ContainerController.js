@@ -110,6 +110,29 @@ module.exports = {
     } catch (e) {
       res.jsonBad(e.message);
     }
+  },
+
+  async update(req, res) {
+    try {
+      await JWTService.getPayloadData(req);
+
+      const //{userId, role} = await JWTService.getPayloadData(req),
+        ids = JSON.parse(req.param('ids'));
+
+      let containers = await Container.findAll({
+        where: {
+          id: ids
+        },
+        attributes: ['id', 'billOfLadingNumber', 'number', 'line']
+      }).map(({id, billOfLadingNumber, number, line}) => ({id, billOfLadingNumber, number, line}));
+
+      //parse containers
+      containers = await ParsingService.refreshContainers(containers);
+
+      res.jsonOk(containers);
+    } catch (e) {
+      res.jsonBad(e.message);
+    }
   }
 
 };

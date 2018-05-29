@@ -4,9 +4,9 @@ const phantom = require('phantom'),
   lines = require('./api/services/adapters/index');
 
 const {maersk, cmacgm, zim} = lines,
-  //line = new maersk();
+  line = new maersk();
   //line = new cmacgm();
-  line = new zim();
+  //line = new zim();
 
 (async (searchNumber) => {
   try {
@@ -19,9 +19,9 @@ const {maersk, cmacgm, zim} = lines,
             contKey != 'locations' ? console.log(`${contKey}: ${container[contKey]}`) :
               container[contKey].forEach((location, idx) => {
                 console.log(`location[${idx}]: `, location)
-                //console.log(location.states[0].state);
-      });
-    }));
+                console.log(location.states[location.states.length - 1].state);
+              });
+          }));
       });
     }
     console.log('done');
@@ -36,9 +36,11 @@ const {maersk, cmacgm, zim} = lines,
 //('CRSU9304248'); //CMACGM container
 //('OEA0141159'); //CMACGM bill of lading (1 container)
 //('OEA0141165'); //CMACGM bill of lading (2 containers)
-//('575487755'); //Maersk bill of lading (1 container)
-//('963927550'); //Maersk bill of lading (5 containers)
+//('582196600'); //Maersk bill of lading (3 containers)
+('582196601'); //Maersk bill of lading (11 containers)
+//('982196601'); //Maersk bill of lading (no results)
+//('MRKU7007504'); //Maersk 1 container
 //('ZIMUNGB1025694'); //ZIM bill of lading (1 container)
 //('ZIMUNGB1025714'); //ZIM bill of lading (2 containers)
-('DFSU6496421'); //ZIM container
+//('DFSU6496421'); //ZIM container
 /* eslint-enable */

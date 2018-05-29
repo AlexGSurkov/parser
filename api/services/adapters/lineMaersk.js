@@ -10,10 +10,22 @@ class LineMaersk extends ILine {
   }
 
   async search(searchNumber) {
-    let parseResult = {};
+    const maxDelay = 10000,
+      stepDelay = 1000;
+
+    let parseResult = {},
+      delay = 1000,
+      needsMoreDelay = true;
 
     if (searchNumber.trim()) {
-      parseResult = await this.parse(`https://my.maerskline.com/tracking/search?keyType=UNKNOWN_TYPE&searchNumber=${searchNumber}`, searchAll);
+      while (needsMoreDelay && delay < maxDelay) {
+        parseResult = await this.parse(`https://my.maerskline.com/tracking/#tracking/${searchNumber}`, searchAll, false, delay);
+
+        needsMoreDelay = parseResult.result.needsMoreDelay; // eslint-disable-line prefer-destructuring
+
+        needsMoreDelay && (delay += stepDelay) && this.info(`Don't have right content for ${searchNumber}. Trying to download page again with ${delay} delaying`);
+      }
+
     } else {
       this.error(`Needs searching number for ${this.lineName}`);
     }
@@ -29,64 +41,158 @@ module.exports = LineMaersk;
 
 function searchAll() {
   try {
-    var elements, sub1, sub2, container, locationIdx,
+    var elements, sub1, sub2, container, locationIdx, type,
       result = {
         containers: [],
         shipmentNumber: null,
         billOfLadingNumber: null
       };
 
-    // get Shipment No
-    elements = document.getElementsByTagName('h3');
-    for (var i = 0; i < elements.length; i++) {
-      if (elements[i].innerHTML.indexOf('Shipment No.') > -1) {
-        result.shipmentNumber = elements[i].getElementsByTagName('a')[0].innerHTML;
 
-        break;
+    elements = document.getElementsByClassName('pt-results');
+
+    //needsMoreDelay
+    if (!elements.length || !elements[0].children.length) {
+      result.needsMoreDelay = true;
+
+      return result;
+    }
+
+    //check if no results
+    if (elements[0].children.length && elements[0].children[0].tagName.toLowerCase() === 'h1' &&
+      elements[0].children[0].innerHTML.toLowerCase().indexOf('no results found') > -1) {
+      return result;
+    }
+
+    //result.shipmentNumber = elements[0].children[0].children[2].innerHTML;
+
+    //define type (BL or container)
+    if (elements[0].children.length && elements[0].children[0].children.length) {
+      if (elements[0].children[0].children[2].children[0].innerHTML.toLowerCase().indexOf('transport document number') > -1) {
+        type = 'billOfLadingNumber';
+      }
+
+      if (elements[0].children[0].children[2].children[0].innerHTML.toLowerCase().indexOf('container number') > -1) {
+        type = 'container';
       }
     }
 
-    if (result.shipmentNumber) {
-      // get Bill of lading No
-      elements = document.getElementsByTagName('h4');
-      for (var i = 0; i < elements.length; i++) {
-        if (elements[i].innerHTML.indexOf('Bill of lading No.') > -1) {
-          result.billOfLadingNumber = elements[i].getElementsByTagName('a')[0].innerHTML;
-
-          break;
-        }
+    if (type) {
+      if (type === 'billOfLadingNumber') {
+        // get Bill of lading No
+        result.billOfLadingNumber = elements[0].children[0].children[2].children[1].innerHTML;
       }
 
-      // get containers
-      elements = document.getElementsByTagName('table');
-      for (var i = 0; i < elements.length; i++) {
-        if (elements[i].className.indexOf('schedule-table') > -1 && elements[i].id.indexOf('container-no') > -1) {
-          container = {id: elements[i].id};
-          // loop by td
-          sub1 = elements[i].getElementsByTagName('td');
-          for (var k = 0; k < sub1.length - 1; k++) {
-            sub2 = sub1[k].getElementsByTagName('span');
-            if (sub2.length > 0) {
-              for (var j = 0; j < sub2.length; j++) {
-                // number
-                if (sub2[j].className === 'tracking_container_id') {
-                  container.number = sub2[j].innerHTML;
+      sub1 = document.getElementById('table_id');
+
+      if (sub1) {
+        // number of containers
+        sub1 = sub1.children[1].children;
+
+        //get details
+        for (var i = 0; i < sub1.length; i++) {
+          var container = {},
+            separator = String.fromCharCode(8226),
+            separatorPosition = -1,
+            currentState = '';
+
+          // number
+          container.number = sub1[i].children[0].children[3].innerHTML;
+          // type
+          container.type = sub1[i].children[1].children[3].innerHTML;
+          // ETA
+          container.eta = {date: sub1[i].children[2].children[3].innerHTML};
+          // current state
+          container.currentState = [];
+          currentState = sub1[i].children[3].children[3].innerHTML.replace('<br>', separator);
+
+          separatorPosition = currentState.indexOf(separator);
+
+          while (separatorPosition > -1) {
+            container.currentState.push(currentState.substring(0, separatorPosition).trim());
+            currentState = currentState.substring(separatorPosition + 1);
+            separatorPosition = currentState.indexOf(separator);
+          }
+
+          if (currentState.length) {
+            container.currentState.push(currentState.trim());
+          }
+
+          if (container.currentState.length === 3) {
+            //move container.currentState[1] to container.currentState[2]
+            container.currentState.splice(2, 0, container.currentState.splice(1, 1)[0]);
+          }
+
+          //get locations
+          sub2 = sub1[i].children[4].children[0].children;
+          container.locations = [];
+
+          for (var j = 0; j < sub2.length; j++) {
+            var cells = sub2[j].getElementsByTagName('tr'),
+              location = cells[0].children[0].innerHTML.trim().replace('<br>', ', '),
+              states = [];
+
+            for (var k = 1; k < cells.length; k++) {
+              var state = [],
+                voyage = '',
+                period = '',
+                date = '';
+
+              separatorPosition = cells[k].children[1].innerText.trim().indexOf('\n');
+              //state.push(separatorPosition, cells[k].children[1].innerText.trim());
+
+              if (separatorPosition > -1 && cells[k].children[1].children[1].className.indexOf('icon-vessel') > -1) {
+                // separate state & vessel
+                var vessel = cells[k].children[1].innerText.trim().substring(0, separatorPosition).trim();
+
+                if (vessel.indexOf('Load on') > -1) {
+                  state.push(vessel.substring(0, 7), vessel.substring(8));
+                } else {
+                  state.push(vessel);
                 }
-                // type
-                if (sub2[j].className === 'muted') {
-                  container.type = sub2[j].innerHTML;
-                }
-                // ETA
-                if (sub2[j].className === 'ETA-block') {
-                  container.eta = {date: sub2[j].innerHTML};
-                }
-              }
-            } else {
-              container.currentState = [];
-              for (var j = 0; j < sub1[k].children.length; j++) {
-                container.currentState.push(sub1[k].children[j].innerHTML);
+
+                voyage = cells[k].children[1].innerText.trim().substring(separatorPosition + 1).trim();
+              } else {
+                state.push(cells[k].children[1].innerText.trim().replace('\n', ' '));
               }
 
+              date = cells[k].children[0].innerText.trim().replace('\n', ' ');
+
+              if (new Date(date) < new Date()) {
+                period = 'past';
+              } else {
+                period = 'future';
+              }
+
+              states.push({
+                date: date,
+                state: state,
+                voyage: voyage,
+                period: period
+              });
+            }
+
+            container.locations.push({
+              location: location,
+              states: states
+            });
+          }
+
+          //set current state
+          var state = {period: ''};
+
+          for (j = 0; j < container.locations.length; j++) {
+            if (state.period === 'current') {
+              break;
+            }
+
+            for (var k = 0; k < container.locations[j].states.length; k++) {
+              if (state.period === 'past' && container.locations[j].states[k].period === 'future') {
+                state.period = 'current';
+                break;
+              } else {
+                state = container.locations[j].states[k];
+              }
             }
           }
 
@@ -94,56 +200,6 @@ function searchAll() {
         }
       }
 
-      // get details
-      result.containers.forEach(function(cont) {
-        //cont.test = 'more_info_' + cont.id.split('-')[2] + '_' + cont.id.split('-')[3];
-        elements = document.getElementById('more_info_' + cont.id.split('-')[2] + '_' + cont.id.split('-')[3]).children[0].children[0].children;
-        locationIdx = -1;
-        cont.locations = [];
-        for (var i = 0; i < elements.length; i++) {
-          if (elements[i].tagName.toLowerCase() === 'h4') {
-            locationIdx++;
-            cont.locations[locationIdx] = {location: elements[i].innerHTML.replace('<span class=""></span>', ''), states: []};
-          }
-          else {
-            if (elements[i].className.indexOf('past') > -1) {
-              cont.locations[locationIdx].states.push({period: 'past'});
-            }
-
-            if (elements[i].className.indexOf('current') > -1) {
-              cont.locations[locationIdx].states.push({period: 'current'});
-            }
-
-            if (elements[i].className.indexOf('future') > -1) {
-              cont.locations[locationIdx].states.push({period: 'future'});
-            }
-
-            sub1 = elements[i].getElementsByTagName('tr')[0].getElementsByTagName('td');
-            cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].date = sub1[2].innerHTML.trim().replace('<br>', ' ');
-            sub2 = sub1[3].children;
-            cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state = [];
-            for (var k = 0; k < sub2.length; k++) {
-              cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state.push(sub2[k].innerHTML);
-            }
-
-            if (cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state.length === 4) {
-              cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage = cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state[3];
-              cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage = {
-                number: cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage.substring(cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].voyage.indexOf(':') + 2)
-              };
-              cont.locations[locationIdx].states[cont.locations[locationIdx].states.length - 1].state.pop();
-            }
-
-          }
-        }
-      });
-    } else {
-      delete result.shipmentNumber;
-      //console.error('Reference ' + searchNumber + ' is not valid.');
-    }
-
-    if (result.id) {
-      delete result.id;
     }
 
     return result;

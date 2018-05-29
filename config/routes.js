@@ -102,6 +102,11 @@ let routes = {
   'DELETE /api/container/:userId': {
     controller: 'ContainerController',
     action: 'delete'
+  },
+
+  'PUT /api/container': {
+    controller: 'ContainerController',
+    action: 'update'
   }
 };
 
