@@ -58,19 +58,35 @@ module.exports = {
 
     //console.log(billOfLadingNumbers, containersWithoutBillOfLadingNumber);
 
+    //parse billOfLadings
     const billOfLadingResults = await Promise.map(Object.keys(billOfLadingNumbers), async key => { //eslint-disable-line no-unused-vars
       return await this.searchNumberByLine(billOfLadingNumbers[key].line, key);
     }, {concurrency: 1});
 
-    //console.log(billOfLadingResults);
-
-    //запросить коносаменты распарсить и добавить детальную информацию в billOfLadingNumbers
-    //если распарсенного контейнера нет в billOfLadingNumbers, то попытаться найти его в containersWithoutBillOfLadingNumber
-
-    //запросить состояние контейнеров из containersWithoutBillOfLadingNumber или без детальной информации в billOfLadingNumbers
+    //add container details to billOfLadingNumbers & containersWithoutBillOfLadingNumber
+    billOfLadingResults.forEach(({billOfLadingNumber, containers}) => {
+      containers.forEach(container => {
+        container.billOfLadingNumber = billOfLadingNumber;
+        //если распарсенного контейнера нет в billOfLadingNumbers, то попытаться найти его в containersWithoutBillOfLadingNumber
+        if (billOfLadingNumbers[billOfLadingNumber] && billOfLadingNumbers[billOfLadingNumber].containers[container.number]) {
+          Object.assign(billOfLadingNumbers[billOfLadingNumber].containers[container.number], container);
+        } else {
+          containersWithoutBillOfLadingNumber[container.number] && Object.assign(containersWithoutBillOfLadingNumber[container.number], container);
+        }
+      });
+    });
 
     //todo
     //что делать с контейнером из коносамента, информацию по которому не запрашивали, но он есть в коносаменте?
+    //возможно добавить его в БД
+
+    //запросить состояние контейнеров из containersWithoutBillOfLadingNumber (или без детальной информации в billOfLadingNumbers)
+    const containersResults = await Promise.map(Object.keys(containersWithoutBillOfLadingNumber).filter(key => !containersWithoutBillOfLadingNumber[key].currentState),
+      async key => await this.searchNumberByLine(containersWithoutBillOfLadingNumber[key].line, key),
+      {concurrency: 1}
+    );
+
+    containersResults.forEach(container => Object.assign(containersWithoutBillOfLadingNumber[container.number], container));
 
     return containers;
   }

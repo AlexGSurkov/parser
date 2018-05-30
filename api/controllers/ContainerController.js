@@ -66,7 +66,8 @@ module.exports = {
           model: Location,
           as: 'locations',
           attributes: ['location', 'states']
-        }]
+        }],
+        order: ['line', 'billOfLadingNumber', 'number']
       });
 
       res.jsonOk(containers);
@@ -116,7 +117,7 @@ module.exports = {
     try {
       await JWTService.getPayloadData(req);
 
-      const //{userId, role} = await JWTService.getPayloadData(req),
+      const {userId} = await JWTService.getPayloadData(req),
         ids = JSON.parse(req.param('ids'));
 
       let containers = await Container.findAll({
@@ -129,8 +130,41 @@ module.exports = {
       //parse containers
       containers = await ParsingService.refreshContainers(containers);
 
-      res.jsonOk(containers);
+      //console.log(containers);
+
+      //save containers where is currentState
+      const numbers = containers.filter(({currentState}) => Boolean(currentState)).map(({number}) => number),
+        exists = await Container.findAll({
+        where: {
+          number: numbers,
+          userId
+        },
+        attribute: ['id', 'number', 'userId']
+      });
+
+      let forUpdate = containers.filter(container => exists.find(({number}) => number === container.number)),
+        forCreate = containers.filter(container => !exists.find(({number}) => number === container.number));
+
+      forCreate = forCreate.map(container => ({...container, userId}));
+
+      await SequelizeConnections[sails.config.models.connection].transaction(async transaction => {
+        forUpdate.length &&
+        await Promise.all(forUpdate.map(container => Container.update(container, {where: {number: container.number}, transaction}))) &&
+        // delete locations for updated containers (temporary)
+        await Location.destroy({where: {containerId: exists.map(({id}) => id)}, transaction}) && await createLocations(forUpdate, transaction);
+
+        if (forCreate.length) {
+          const createdIds = await Container.bulkCreate(forCreate, {transaction, returning: true}).map(({id}) => id);
+
+          forCreate = forCreate.map((container, idx) => ({...container, id: createdIds[idx]}));
+
+          await createLocations(forCreate, transaction);
+        }
+      });
+
+      res.jsonOk([...forUpdate, ...forCreate]);
     } catch (e) {
+      console.error(e);
       res.jsonBad(e.message);
     }
   }
