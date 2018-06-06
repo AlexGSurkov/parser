@@ -70,6 +70,8 @@ module.exports = {
         order: ['line', 'billOfLadingNumber', 'number']
       });
 
+      sortLocations(containers);
+
       res.jsonOk(containers);
     } catch (e) {
       res.jsonBad(e.message);
@@ -184,4 +186,19 @@ async function createLocations(containers, transaction) {
   }));
 
   return Location.bulkCreate(locations, {transaction});
+}
+
+function sortLocations(containers) {
+  containers.forEach(container => {
+    container.locations.sort((location1, location2) => {
+      const dates1 = location1.states.map(state => state.date),
+        dates2 = location2.states.map(state => state.date);
+
+      if (dates1.every(date1 => dates2.every(date2 => new Date(date1) > new Date(date2)))) {
+        return 1; //eslint-disable-line no-magic-numbers
+      }
+
+      return -1; //eslint-disable-line no-magic-numbers
+    });
+  });
 }
