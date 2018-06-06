@@ -154,7 +154,8 @@ class Main extends Component {
                 key={idx}
                 style={{
                   ...styles.stateContainer,
-                  color: period === 'current' ? '#ff0000' : 'none'
+                  color: period === 'current' ? '#ff0000' : 'none',
+                  fontWeight: period === 'current' ? 'bold' : 'normal'
                 }}
               >
                 <span style={styles.stateDate}>{date}</span>
