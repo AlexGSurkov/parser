@@ -20,7 +20,6 @@
     "chai-as-promised": "^7.1.1",
     "connect-redis": "^1.4.5",
     "create-react-class": "^15.6.2",
-    "druid-query": "git+https://github.com/7eggs/node-druid-query.git",
     "ejs": "~0.8.4",
     "event-stream": "^3.3.4",
     "exports-loader": "^0.6.2",

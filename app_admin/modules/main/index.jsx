@@ -280,7 +280,8 @@ const styles = {
     flex: 1,
     whiteSpace: 'nowrap',
     overflow: 'hidden',
-    textOverflow: 'ellipsis'
+    textOverflow: 'ellipsis',
+    paddingRight: 5
   },
 
   select: {

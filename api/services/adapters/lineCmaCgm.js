@@ -138,15 +138,16 @@ function containerDetails() {
     }
 
     // get current status
-    elements = document.getElementsByClassName('medium-mega');
-    if (elements.length === 1) {
-      elements = elements[0].getElementsByTagName('tr');
-      result.containers[0].currentState.push(elements[0].children[1].innerHTML);
-      // if current status is "Discharged" there isn't date
-      if (elements.length > 1) {
-        result.containers[0].currentState.push(elements[1].children[1].innerHTML);
-      }
-    }
+    result.containers[0].currentState = [];
+    //elements = document.getElementsByClassName('medium-mega');
+    //if (elements.length === 1) {
+    //  elements = elements[0].getElementsByTagName('tr');
+    //  result.containers[0].currentState.push(elements[0].children[1].innerHTML);
+    //  // if current status is "Discharged" there isn't date
+    //  if (elements.length > 1) {
+    //    result.containers[0].currentState.push(elements[1].children[1].innerHTML);
+    //  }
+    //}
 
     //get type
     elements = document.getElementsByClassName('maxi');
@@ -192,6 +193,15 @@ function containerDetails() {
           break;
         case 'date-provisional':
           period = 'future';
+      }
+
+      // set currentState
+      if (period === 'current' && state) {
+        result.containers[0].currentState = [state[0], date];
+        //place or vessel
+        if (state.length > 1) {
+          result.containers[0].currentState.push(state[1]);
+        }
       }
 
       result.containers[0].locations.push({

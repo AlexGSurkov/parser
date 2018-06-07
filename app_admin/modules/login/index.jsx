@@ -84,8 +84,8 @@ class Login extends Component {
 
     return (
       <div style={{...styles.container, top: this.state.containerHeight}}>
-        <input ref="login" type="text" defaultValue={'admin'} onKeyDown={e => this.onKeyDown(e)}/>
-        <input ref="password" type="password" defaultValue={'123456'} onKeyDown={e => this.onKeyDown(e)} />
+        <input ref="login" type="text" placeholder="login" onKeyDown={e => this.onKeyDown(e)}/>
+        <input ref="password" type="password" placeholder="password"  onKeyDown={e => this.onKeyDown(e)} />
         <button onClick={() => this.login()}>Sign in</button>
       </div>
     );
