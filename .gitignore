@@ -126,3 +126,4 @@ tasks/dataMonitoring/logs.json
 .vscode
 jsconfig.json
 data.json
+/docs
