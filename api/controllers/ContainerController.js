@@ -31,7 +31,9 @@ module.exports = {
         forUpdate.length &&
         await Promise.all(forUpdate.map(container => Container.update(container, {where: {id: container.id}, transaction}))) &&
         // delete locations for updated containers (temporary)
-        await Location.destroy({where: {containerId: exists.map(({id}) => id)}, transaction}) && await createLocations(forUpdate, transaction);
+        await Location.destroy({where: {containerId: exists.map(({id}) => id)}, transaction});
+
+        forUpdate.length && await createLocations(forUpdate, transaction);
 
         if (forCreate.length) {
           const createdIds = await Container.bulkCreate(forCreate, {transaction, returning: true}).map(({id}) => id);
@@ -132,6 +134,7 @@ module.exports = {
       //parse containers
       containers = await ParsingService.refreshContainers(containers);
 
+      //console.log(111111111);
       //console.log(containers);
 
       //save containers where is currentState
@@ -153,7 +156,9 @@ module.exports = {
         forUpdate.length &&
         await Promise.all(forUpdate.map(container => Container.update(container, {where: {number: container.number}, transaction}))) &&
         // delete locations for updated containers (temporary)
-        await Location.destroy({where: {containerId: exists.map(({id}) => id)}, transaction}) && await createLocations(forUpdate, transaction);
+        await Location.destroy({where: {containerId: exists.map(({id}) => id)}, transaction});
+
+        forUpdate.length && await createLocations(forUpdate, transaction);
 
         if (forCreate.length) {
           const createdIds = await Container.bulkCreate(forCreate, {transaction, returning: true}).map(({id}) => id);

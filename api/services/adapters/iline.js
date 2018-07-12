@@ -52,7 +52,7 @@ class ILine {
    */
 
 
-  async parse(source, parseFunc, logContent = false, delayPariod = 0) {
+  async parse(source, parseFunc, logContent = false, delayPeriod = 0) {
     let page, status = '';
 
     if (typeof source === 'string') {
@@ -72,8 +72,8 @@ class ILine {
       status = 'success';
     }
 
-    if (delayPariod) {
-      await delay(delayPariod);
+    if (delayPeriod) {
+      await delay(delayPeriod);
     }
 
     if (page && status === 'success') {

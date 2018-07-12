@@ -4,13 +4,15 @@ const phantom = require('phantom'),
   lines = require('./api/services/adapters/index');
 
 const {maersk, cmacgm, zim} = lines,
-  line = new maersk();
+  //line = new maersk();
   //line = new cmacgm();
-  //line = new zim();
+  line = new zim();
 
 (async (searchNumber) => {
   try {
     const result = await line.search(searchNumber);
+
+    console.log(result);
 
     if (result) {
       Object.keys(result).forEach(key => {
@@ -37,10 +39,12 @@ const {maersk, cmacgm, zim} = lines,
 //('OEA0141159'); //CMACGM bill of lading (1 container)
 //('OEA0141165'); //CMACGM bill of lading (2 containers)
 //('582196600'); //Maersk bill of lading (3 containers)
-('582196601'); //Maersk bill of lading (11 containers)
+//('582196601'); //Maersk bill of lading (11 containers)
 //('982196601'); //Maersk bill of lading (no results)
 //('MRKU7007504'); //Maersk 1 container
 //('ZIMUNGB1025694'); //ZIM bill of lading (1 container)
 //('ZIMUNGB1025714'); //ZIM bill of lading (2 containers)
-//('DFSU6496421'); //ZIM container
+//('ZIMUOSS802832'); //ZIM bill of lading (4 containers)
+('ZIMUOSS802805'); //ZIM bill of lading (3 containers)
+//('DRYU9661489'); //ZIM container
 /* eslint-enable */
