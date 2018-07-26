@@ -142,7 +142,10 @@ class Main extends Component {
   }
 
   getDetails() {
-    const details = this.state.data.containers[this.state.detailsIdx].locations;
+    const details = this.state.data.containers[this.state.detailsIdx].locations,
+      {eta} = this.state.data.containers[this.state.detailsIdx],
+      etaDate = eta.date ? `ETA: ${eta.date}` : '',
+      etaPod = eta.pod ? `POD: ${eta.pod}` : '';
 
     return (
       <div key={`${this.state.detailsIdx}_details`} style={styles.detailsContainer}>
@@ -164,6 +167,7 @@ class Main extends Component {
             ))}
           </div>
         ))}
+        {etaDate || etaPod ? <h4 style={{textAlign: 'center'}}>{`${etaDate} ${etaPod}`}</h4> : null}
       </div>
     );
   }
@@ -172,7 +176,7 @@ class Main extends Component {
     const {billOfLadingNumber, shipmentNumber, containers} = this.state.data || {};
 
     if (billOfLadingNumber) {
-      return `Bill of Lading Number: ${billOfLadingNumber}`;
+      return `Bill of Lading Number: ${billOfLadingNumber} ${containers.length ? '' : '(no containers)'}`;
     }
 
     if (shipmentNumber) {

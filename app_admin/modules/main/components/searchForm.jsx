@@ -34,7 +34,7 @@ class SearchForm extends Component {
     super();
 
     let state = {
-      disabled: true
+      disabled: false
     };
 
     formFields.forEach(field => {

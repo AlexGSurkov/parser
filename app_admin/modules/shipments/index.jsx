@@ -99,7 +99,10 @@ class Shipments extends Component {
   }
 
   getDetails() {
-    const details = this.state.data[this.state.detailsIdx].locations;
+    const details = this.state.data[this.state.detailsIdx].locations,
+      {eta} = this.state.data[this.state.detailsIdx],
+      etaDate = eta.date ? `ETA: ${eta.date}` : '',
+      etaPod = eta.pod ? `POD: ${eta.pod}` : '';
 
     return (
       <div key={`${this.state.detailsIdx}_details`} style={styles.detailsContainer}>
@@ -121,6 +124,7 @@ class Shipments extends Component {
             ))}
           </div>
         ))}
+        {etaDate || etaPod ? <h4 style={{textAlign: 'center'}}>{`${etaDate} ${etaPod}`}</h4> : null}
       </div>
     );
   }

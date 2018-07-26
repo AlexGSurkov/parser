@@ -1,12 +1,13 @@
 'use strict';
 /* eslint-disable */
-const phantom = require('phantom'),
+const //phantom = require('phantom'),
   lines = require('./api/services/adapters/index');
 
-const {maersk, cmacgm, zim} = lines,
+const {maersk, cmacgm, zim, msc} = lines,
   //line = new maersk();
   //line = new cmacgm();
   line = new zim();
+  //line = new msc();
 
 (async (searchNumber) => {
   try {
@@ -45,6 +46,9 @@ const {maersk, cmacgm, zim} = lines,
 //('ZIMUNGB1025694'); //ZIM bill of lading (1 container)
 //('ZIMUNGB1025714'); //ZIM bill of lading (2 containers)
 //('ZIMUOSS802832'); //ZIM bill of lading (4 containers)
-('ZIMUOSS802805'); //ZIM bill of lading (3 containers)
+//('ZIMUOSS802805'); //ZIM bill of lading (3 containers)
 //('DRYU9661489'); //ZIM container
+('ZIMUOSS803086'); //ZIM bill of lading (0 containers)
+//('539INTRA1800096'); //MSC boocking (21 containers)
+//('MSCUO2566823'); //MSC bill of lading (5 containers)
 /* eslint-enable */
