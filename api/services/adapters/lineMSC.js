@@ -106,6 +106,7 @@ function getData(){
       var shipmentNumber = null;
       var pathEl;
       var noResult;
+      var searchNumber;
 
       // No result
       path = '.columns > .copyPanel > h3';
@@ -157,6 +158,30 @@ function getData(){
 
       }
       result.shipmentNumber = shipmentNumber;
+
+      // Case 2
+      path = '.search-item .search-input > div input';
+      pathEl = document.querySelectorAll(path);
+
+      if(pathEl && pathEl.length){
+        searchNumber = pathEl[0].value.trim();
+
+        if(elements.length > 1 && billOfLading==null){
+          result.shipmentNumber = searchNumber;
+        }
+      }
+
+      // Case 3
+      path = '.search-item .search-input > div input';
+      pathEl = document.querySelectorAll(path);
+      if(pathEl && pathEl.length){
+        searchNumber = pathEl[0].value.trim();
+
+        if(searchNumber==billOfLading){
+          result.billOfLadingNumber = '';
+        }
+      }
+
 
       for (var i = 0; i < elements.length; i++) {
         var el = elements[i];
@@ -343,8 +368,6 @@ function getData(){
         //console.log(container);
         //throw new Error('stop');
       }
-
-
 
       return result;
 
