@@ -3,11 +3,13 @@
 const //phantom = require('phantom'),
   lines = require('./api/services/adapters/index');
 
-const {maersk, cmacgm, zim, msc} = lines,
+const {maersk, cmacgm, zim, msc, cosco, hapag} = lines,
   //line = new maersk();
   //line = new cmacgm();
-  line = new zim();
+  //line = new zim();
   //line = new msc();
+  line = new cosco();
+  //line = new hapag();
 
 (async (searchNumber) => {
   try {
@@ -48,7 +50,13 @@ const {maersk, cmacgm, zim, msc} = lines,
 //('ZIMUOSS802832'); //ZIM bill of lading (4 containers)
 //('ZIMUOSS802805'); //ZIM bill of lading (3 containers)
 //('DRYU9661489'); //ZIM container
-('ZIMUOSS803086'); //ZIM bill of lading (0 containers)
+//('ZIMUOSS803086'); //ZIM bill of lading (0 containers)
 //('539INTRA1800096'); //MSC boocking (21 containers)
 //('MSCUO2566823'); //MSC bill of lading (5 containers)
+//('9002818620'); //COSCO boocking (2 containers)
+('9002818650'); //COSCO bill of lading (5 containers)
+//('FCIU7204412'); //COSCO container
+//('54712750'); //HAPAG boocking (8 containers)
+//('HLCUANR180371145'); //HAPAG bill of lading (2 containers)
+//('CAIU9418056'); //container
 /* eslint-enable */

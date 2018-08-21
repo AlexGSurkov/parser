@@ -1,5 +1,7 @@
 'use strict';
 
+// parsing module
+
 const ILine = require('./iline');
 
 class LineZim extends ILine {
@@ -11,7 +13,7 @@ class LineZim extends ILine {
   }
 
   getBLUrl(searchNumber) {
-    return `https://www.zim.com/tools/track-a-shipment?consnumber=${searchNumber}`;
+    return `${this.blUrl}${searchNumber}`;
   }
 
   async search(searchNumber) {

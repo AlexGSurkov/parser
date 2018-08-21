@@ -17,8 +17,7 @@ class ILine {
   }
 
   error() {
-    console.log(`\x1b[31m${this.lineName} parser error: `, ...arguments); //eslint-disable-line no-console
-    //console.error(...arguments);
+    console.log(`\x1b[31m${this.lineName} parser error: `, '\x1b[30m',  ...arguments); //eslint-disable-line no-console
   }
 
   async create() {
@@ -40,7 +39,8 @@ class ILine {
 
   async exit() {
     if (this._instance) {
-    await this._instance.exit();
+      await this._instance.exit();
+
       this._instance = null;
       this.info('exit');
     }

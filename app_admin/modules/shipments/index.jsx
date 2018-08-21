@@ -101,8 +101,8 @@ class Shipments extends Component {
   getDetails() {
     const details = this.state.data[this.state.detailsIdx].locations,
       {eta} = this.state.data[this.state.detailsIdx],
-      etaDate = eta.date ? `ETA: ${eta.date}` : '',
-      etaPod = eta.pod ? `POD: ${eta.pod}` : '';
+      etaDate = eta && eta.date ? `ETA: ${eta.date}` : '',
+      etaPod = eta && eta.pod ? `POD: ${eta.pod}` : '';
 
     return (
       <div key={`${this.state.detailsIdx}_details`} style={styles.detailsContainer}>

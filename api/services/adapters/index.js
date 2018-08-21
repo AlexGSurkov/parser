@@ -1,11 +1,16 @@
 const maersk = require('./lineMaersk'),
   cmacgm = require('./lineCmaCgm'),
   zim = require('./lineZIM'),
-  msc = require('./lineMSC');
+  msc = require('./lineMSC'),
+  cosco = require('./lineCoscoApi');
+  //cosco = require('./lineCosco'),
+  //hapag = require('./lineHapag');
 
 module.exports = {
   maersk,
   cmacgm,
   zim,
-  msc
+  msc,
+  cosco
+  //hapag
 };

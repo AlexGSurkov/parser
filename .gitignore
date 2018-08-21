@@ -125,5 +125,5 @@ tasks/apiRequests/*
 tasks/dataMonitoring/logs.json
 .vscode
 jsconfig.json
-data.json
+data*.json
 /docs
