@@ -1,6 +1,7 @@
 'use strict';
 
 import React, {Component} from 'react';
+import Moment from 'moment';
 //import PropTypes from 'prop-types';
 //import {Redirect, withRouter} from 'react-router-dom';
 import {FormattedMessage, injectIntl} from 'react-intl'; //eslint-disable-line no-unused-vars
@@ -106,33 +107,37 @@ class Main extends Component {
   getContainers() {
     const {containers} = this.state.data || {};
 
-    const rows = containers ? containers.map(({currentState, number, type, locations}, idx) => (
-      <div key={idx} style={styles.rowContainer}>
-        <span style={styles.number}>{number}</span>
-        <span style={styles.type}>{type}</span>
-        <span style={styles.currentState}>{currentState.join('  ')}</span>
-        <span
-          style={{
-            ...styles.showDetails,
-            textDecoration: this.state.detailsIdx === idx || !locations.length ? 'none' : 'underline',
-            cursor: locations.length ? 'pointer' : 'default'
-          }}
-          onClick={() => locations.length && this.clickDetails(idx)}
-        >
-          {locations.length ? this.state.detailsIdx === idx ? 'Hide Details' : 'Show Details' : 'No Details'}
-        </span>
-        {this.state.authorized ?
-          <span style={styles.select}>
-            <input
-              name="allSelect"
-              type="checkbox"
-              checked={this.state.selectedRows.has(idx)}
-              onChange={() => this.selectRow(idx)}
-            />
-          </span> : null
-        }
-      </div>
-    )) : [];
+    const rows = containers ? containers.map(({currentState, number, type, locations}, idx) => {
+      currentState[1] && (currentState[1] = Moment(currentState[1]).format('YYYY-MM-DD HH:mm'));
+
+      return (
+        <div key={idx} style={styles.rowContainer}>
+          <span style={styles.number}>{number}</span>
+          <span style={styles.type}>{type}</span>
+          <span style={styles.currentState}>{currentState.join('  ')}</span>
+          <span
+            style={{
+              ...styles.showDetails,
+              textDecoration: this.state.detailsIdx === idx || !locations.length ? 'none' : 'underline',
+              cursor: locations.length ? 'pointer' : 'default'
+              }}
+            onClick={() => locations.length && this.clickDetails(idx)}
+          >
+            {locations.length ? this.state.detailsIdx === idx ? 'Hide Details' : 'Show Details' : 'No Details'}
+          </span>
+          {this.state.authorized ?
+            <span style={styles.select}>
+              <input
+                name="allSelect"
+                type="checkbox"
+                checked={this.state.selectedRows.has(idx)}
+                onChange={() => this.selectRow(idx)}
+              />
+            </span> : null
+          }
+        </div>
+      );
+    }) : [];
 
     if (this.state.detailsIdx > -1 && this.state.detailsIdx < rows.length) {
       rows.splice(this.state.detailsIdx + 1, 0, this.getDetails());
@@ -144,7 +149,7 @@ class Main extends Component {
   getDetails() {
     const details = this.state.data.containers[this.state.detailsIdx].locations,
       {eta} = this.state.data.containers[this.state.detailsIdx],
-      etaDate = eta && eta.date ? `ETA: ${eta.date}` : '',
+      etaDate = eta && eta.date ? `ETA: ${Moment(eta.date).format('YYYY-MM-DD HH:mm')}` : '',
       etaPod = eta && eta.pod ? `POD: ${eta.pod}` : '';
 
     return (
@@ -161,7 +166,7 @@ class Main extends Component {
                   fontWeight: period === 'current' ? 'bold' : 'normal'
                 }}
               >
-                <span style={styles.stateDate}>{date}</span>
+                <span style={styles.stateDate}>{Moment(date).format('YYYY-MM-DD HH:mm')}</span>
                 <span style={styles.stateState}>{state.filter(st => st.length).join(', ')}</span>
               </div>
             ))}

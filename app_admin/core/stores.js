@@ -376,6 +376,7 @@ let ContainerStore = Reflux.createStore({
     this.listenTo(Actions.ActionsContainer.filter, this.filter);
     this.listenTo(Actions.ActionsContainer.delete, this.delete);
     this.listenTo(Actions.ActionsContainer.refresh, this.refresh);
+    this.listenTo(Actions.ActionsContainer.resetStore, this.resetStore);
 
     this.resetStore();
   },

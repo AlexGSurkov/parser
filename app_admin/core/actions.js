@@ -27,7 +27,8 @@ const ActionsContainer = Reflux.createActions([
   'getContainers',
   'filter',
   'delete',
-  'refresh'
+  'refresh',
+  'resetStore'
 ]);
 
 const LoaderActions = Reflux.createActions([
