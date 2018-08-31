@@ -14,6 +14,10 @@ module.exports = {
    */
   cloneDeep(object) {
     return JSON.parse(JSON.stringify(object));
+  },
+
+  checkAuthorisation(req) {
+    return JWTService.getPayloadData(req);
   }
 
 };

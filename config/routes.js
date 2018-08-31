@@ -109,6 +109,11 @@ let routes = {
     action: 'update'
   },
 
+  'GET /api/tracking/vessel/:name': {
+    controller: 'TrackingController',
+    action: 'find'
+  },
+
   'POST /api/tracking/vessels': {
     controller: 'TrackingController',
     action: 'addVessels'

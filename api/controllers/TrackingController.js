@@ -1,10 +1,31 @@
 'use strict';
 
 module.exports = {
+  async find(req, res) {
+    try {
+      await UtilsService.checkAuthorisation(req);
+
+      const name = req.param('name'),
+        // get vessel data by name for tracking
+        {imo} = await TrackingService.findVesselByFilter({where: {name}});
+
+      // todo
+      // try to get imo if line is known
+
+      const currentLocation = await TrackingService.getCurrentLocation(imo);
+
+      // todo
+      // if unknown currentLocation we can get last known locatiiion from database
+
+      res.jsonOk(currentLocation);
+    } catch (e) {
+      res.jsonBad(e.message);
+    }
+  },
 
   async addVessels(req, res) {
     try {
-      await JWTService.getPayloadData(req);
+      await UtilsService.checkAuthorisation(req);
 
       if (req.body && Array.isArray(req.body)) {
         const result = await TrackingService.addVessels(req.body);
@@ -13,30 +34,6 @@ module.exports = {
       } else {
         res.jsonBad(`Needs body with array of vessel's IMO`);
       }
-
-      //TrackingServiice
-
-
-      //userId !== authData.userId && authData.role !== 'admin' && res.jsonBad(`Auth token is invalid!`);
-      //
-      //const user = userId ? await User.findById(userId) : await User.findAll({order: ['role', 'firstName']});
-      //
-      //if (userId) {
-      //  if (user) {
-      //    const {id, login, role, firstName, lastName, email, phone, address} = user;
-      //
-      //    res.jsonOk({id, login, role, firstName, lastName, email, phone, address});
-      //  } else {
-      //    res.jsonBad(`User with ID "${userId}" not found`);
-      //  }
-      //} else {
-      //  res.jsonOk(user ? user.map(u => {
-      //    const {id, login, role, firstName, lastName, email, phone, address} = u;
-      //
-      //    return {id, login, role, firstName, lastName, email, phone, address};
-      //  }) : []);
-      //}
-
     } catch (e) {
       res.jsonBad(e.message);
     }

@@ -65,7 +65,7 @@ class LineMaerskApi extends ILine {
       };
 
       if (searchNumber) {
-        let response = await request.get({
+        const response = await request.get({
           uri: this.getUrl(searchNumber),
           json: true
         });
