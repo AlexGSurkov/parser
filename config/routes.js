@@ -107,7 +107,12 @@ let routes = {
   'PUT /api/container': {
     controller: 'ContainerController',
     action: 'update'
-  }
+  },
+
+  'POST /api/tracking/vessels': {
+    controller: 'TrackingController',
+    action: 'addVessels'
+  },
 };
 
 module.exports.routes = routes;

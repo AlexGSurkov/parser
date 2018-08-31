@@ -3,6 +3,7 @@
     // Models
     "User": true,
     "Container": true,
-    "Location": true
+    "Location": true,
+    "Vessel": true
   }
 }

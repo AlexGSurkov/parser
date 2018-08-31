@@ -150,11 +150,12 @@ function liftSails(grunt) {
     };
 
     sails = new Sails();
-    sails.lift(sailsConfig, err => {
+    sails.load(sailsConfig, err => {
       if (err) {
         grunt.log.error(err.stack);
         return reject(err);
       }
+
       return resolve(sails);
     });
   });
@@ -182,7 +183,6 @@ module.exports = function(grunt) {
       usage(grunt);
       return done();
     }
-
 
     liftSails(grunt).then(sails => {
       sailsInstance = sails;
@@ -222,12 +222,10 @@ module.exports = function(grunt) {
           }
         });
       }
-    }).then(() => {
-      sailsInstance.lower(done);
-
-    }).catch(e => {
-      grunt.log.error(e);
-      sailsInstance.lower(() => done(e));
-    });
+    }).catch(e =>
+      grunt.log.error(e)
+    ).finally(() =>
+      sailsInstance && sailsInstance.lower(done)
+    );
   });
 };
