@@ -6,16 +6,13 @@ module.exports = {
       await UtilsService.checkAuthorisation(req);
 
       const name = req.param('name'),
-        // get vessel data by name for tracking
-        {imo} = await TrackingService.findVesselByFilter({where: {name}});
-
-      // todo
-      // try to get imo if line is known
+        line = req.param('line'),
+        // get vessel data by name & line
+        {imo} = await TrackingService.findVesselByName(name, line);
 
       const currentLocation = await TrackingService.getCurrentLocation(imo);
 
-      // todo
-      // if unknown currentLocation we can get last known locatiiion from database
+      // todo: if unknown currentLocation we can get last known location from database
 
       res.jsonOk(currentLocation);
     } catch (e) {

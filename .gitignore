@@ -116,14 +116,8 @@ nbproject
 *.iml
 .node_history
 assets/bundle.js
-tasks/dataSet/errors-log.json
-api/controllers/TestController.js
 z_*
-tasks/register/jsonGenerator.js
-/api/models/Test.js
-tasks/apiRequests/*
-tasks/dataMonitoring/logs.json
 .vscode
 jsconfig.json
 data*.json
-/docs
+docs

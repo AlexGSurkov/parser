@@ -8,6 +8,8 @@ import {FormattedMessage, injectIntl} from 'react-intl'; //eslint-disable-line n
 import CoreStores from 'core/stores';
 import CoreActions from 'core/actions';
 
+import ModalLocation from 'core/components/modalLocation';
+
 import FiltersForm from './components/filtersForm';
 
 //const localePrefix = 'main';
@@ -29,7 +31,8 @@ class Shipments extends Component {
       data: [],
       detailsIdx: -1,
       allChecked: false,
-      selectedRows: new Set()
+      selectedRows: new Set(),
+      vesselLocation: {}
     };
 
   }
@@ -55,11 +58,12 @@ class Shipments extends Component {
   }
 
   setData(data) {
-    this.setState({
+    this.setState(data.hasOwnProperty('vesselLocation') ? data : {
       ...data,
       detailsIdx: -1,
       allChecked: false,
-      selectedRows: new Set()
+      selectedRows: new Set(),
+      vesselLocation: {}
     });
   }
 
@@ -106,14 +110,39 @@ class Shipments extends Component {
   }
 
   getDetails() {
-    const details = this.state.data[this.state.detailsIdx].locations,
-      {eta} = this.state.data[this.state.detailsIdx],
+    const {locations, line, eta} = this.state.data[this.state.detailsIdx],
       etaDate = eta && eta.date ? `ETA: ${Moment(eta.date).format('YYYY-MM-DD HH:mm')}` : '',
-      etaPod = eta && eta.pod ? `POD: ${eta.pod}` : '';
+      etaPod = eta && eta.pod ? `POD: ${eta.pod}` : '',
+      {vesselLocation} = this.state;
+
+    let lastVesselState = [];
+
+    // define last state with vessel
+    locations.reduce((allStates, {states}) => [...allStates, ...states], [])
+      .filter(({period}) => period === 'past' || period === 'current')
+      .reverse().some(({state}) => {
+        if (state.filter(st => st.length).length === 2) {
+          lastVesselState = state;
+
+          return true;
+        }
+
+        return false;
+      });
 
     return (
-      <div key={`${this.state.detailsIdx}_details`} style={styles.detailsContainer}>
-        {details.map((location, idx) => (
+      <div
+        key={`${this.state.detailsIdx}_details`}
+        style={{
+          ...styles.detailsContainer,
+          minHeight: vesselLocation.lat && vesselLocation.lon ? 520 : 0
+        }}
+      >
+        <ModalLocation
+          vesselLocation={vesselLocation}
+          onCancel={() => CoreActions.ActionsContainer.showLocation(null)}
+        />
+        {locations.map((location, idx) => (
           <div key={idx}>
             <h4>{location.location}</h4>
             {location.states.map(({date, state, period}, idx) => (
@@ -126,7 +155,16 @@ class Shipments extends Component {
                 }}
               >
                 <span style={styles.stateDate}>{Moment(date).format('YYYY-MM-DD HH:mm')}</span>
-                <span style={styles.stateState}>{state.filter(st => st.length).join(', ')}</span>
+                <span style={styles.stateState}>
+                  {state.filter(st => st.length).join(', ')}
+                  <span
+                    style={{
+                      ...styles.btnLocation,
+                      display: state === lastVesselState ? 'block' : 'none'
+                    }}
+                    onClick={() => CoreActions.ActionsContainer.showLocation(state[1], line)}
+                  />
+                </span>
               </div>
             ))}
           </div>
@@ -163,7 +201,8 @@ class Shipments extends Component {
   }
 
   clickDetails(detailsIdx) {
-    this.state.detailsIdx === detailsIdx ? this.setState({detailsIdx: -1}) : this.setState({detailsIdx});
+    this.state.detailsIdx === detailsIdx ?
+      this.setState({detailsIdx: -1, vesselLocation: {}}) : this.setState({detailsIdx, vesselLocation: {}});
   }
 
   selectRow(idx) {
@@ -206,13 +245,14 @@ class Shipments extends Component {
   }
 
   render() {
-    const containers = this.state.data || {};
+    const containers = this.state.data || {},
+      {lines, selectedRows} = this.state;
 
     return (
       <div style={styles.container}>
         <h3>My Shipments</h3>
         <FiltersForm
-          lines={this.state.lines}
+          lines={lines}
           onFilter={filters => CoreActions.ActionsContainer.filter(filters)}
         />
         {this.getTable()}
@@ -224,16 +264,16 @@ class Shipments extends Component {
                 marginRight: 10
               }}
               onClick={() => this.delete()}
-              disabled={!Boolean(this.state.selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
+              disabled={!Boolean(selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
             >
-              {`Delete (${this.state.selectedRows.size})`}
+              {`Delete (${selectedRows.size})`}
             </button>
             <button
               style={styles.button}
               onClick={() => this.refresh()}
-              disabled={!Boolean(this.state.selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
+              disabled={!Boolean(selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
             >
-              {`Data refresh (${this.state.selectedRows.size})`}
+              {`Data refresh (${selectedRows.size})`}
             </button>
           </div> : null
         }
@@ -248,7 +288,6 @@ export default injectIntl(Shipments);
 
 const styles = {
   container: {
-    position: 'relative',
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -293,7 +332,8 @@ const styles = {
   },
 
   detailsContainer: {
-    margin: '0 20px 20px'
+    position: 'relative',
+    padding: '0 20px 20px'
   },
 
   stateContainer: {
@@ -305,6 +345,24 @@ const styles = {
   stateDate: {
     width: 160,
     marginRight: 20
+  },
+
+  stateState: {
+    position: 'relative'
+  },
+
+  btnLocation: {
+    position: 'absolute',
+    backgroundImage: 'url(/images/admin/location.png)',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    cursor: 'pointer',
+    width: 40,
+    height: 40,
+    top: -17,
+    right: -35,
+    zIndex: 1
   },
 
   footer: {

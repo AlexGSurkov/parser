@@ -4,6 +4,8 @@
     "User": true,
     "Container": true,
     "Location": true,
-    "Vessel": true
+    "Vessel": true,
+    "Tracking": true,
+    "Logging": true
   }
 }

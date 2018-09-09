@@ -119,14 +119,13 @@ module.exports = {
 
   async update(req, res) {
     try {
-      await JWTService.getPayloadData(req);
-
       const {userId} = await JWTService.getPayloadData(req),
         ids = JSON.parse(req.param('ids'));
 
       let containers = await Container.findAll({
         where: {
-          id: ids
+          id: ids,
+          userId
         },
         attributes: ['id', 'billOfLadingNumber', 'number', 'line']
       }).map(({id, billOfLadingNumber, number, line}) => ({id, billOfLadingNumber, number, line}));
@@ -154,7 +153,7 @@ module.exports = {
 
       await SequelizeConnections[sails.config.models.connection].transaction(async transaction => {
         forUpdate.length &&
-        await Promise.all(forUpdate.map(container => Container.update(container, {where: {number: container.number}, transaction}))) &&
+        await Promise.all(forUpdate.map(container => Container.update(container, {where: {number: container.number, userId}, transaction}))) &&
         // delete locations for updated containers (temporary)
         await Location.destroy({where: {containerId: exists.map(({id}) => id)}, transaction});
 
@@ -163,7 +162,7 @@ module.exports = {
         if (forCreate.length) {
           const createdIds = await Container.bulkCreate(forCreate, {transaction, returning: true}).map(({id}) => id);
 
-          forCreate = forCreate.map((container, idx) => ({...container, id: createdIds[idx]}));
+          forCreate = forCreate.map((container, idx) => ({...container, id: createdIds[idx], userId}));
 
           await createLocations(forCreate, transaction);
         }

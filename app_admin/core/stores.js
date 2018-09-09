@@ -368,7 +368,7 @@ let ContainerStore = Reflux.createStore({
   /**
    * relative url to container
    */
-  apiUrl: (apiPrefix.startsWith('/') ? apiPrefix.slice(1) : apiPrefix) + '/container',
+  apiUrl: apiPrefix.startsWith('/') ? apiPrefix.slice(1) : apiPrefix,
 
   init() {
     this.listenTo(Actions.ActionsContainer.save, this.save);
@@ -377,6 +377,7 @@ let ContainerStore = Reflux.createStore({
     this.listenTo(Actions.ActionsContainer.delete, this.delete);
     this.listenTo(Actions.ActionsContainer.refresh, this.refresh);
     this.listenTo(Actions.ActionsContainer.resetStore, this.resetStore);
+    this.listenTo(Actions.ActionsContainer.showLocation, this.showLocation);
 
     this.resetStore();
   },
@@ -391,17 +392,11 @@ let ContainerStore = Reflux.createStore({
   },
 
   save(data) {
-    API.POST(`${this.apiUrl}`, AuthorizationStore.getAuthData('token'), data).then(response => {
+    API.POST(`${this.apiUrl}/container`, AuthorizationStore.getAuthData('token'), data).then(response => {
       if (response.status !== 'ok') {
         throw new Error(response.errorMsg);
       }
 
-      //console.log('save result', response);
-
-      //this.data = response.data;
-      //
-      //console.info(response);
-      //
       this.trigger({actionResult: 'saved'});
     }).catch(e => {
       console.error(e);
@@ -411,7 +406,7 @@ let ContainerStore = Reflux.createStore({
   },
 
   getContainers() {
-    API.GET(`${this.apiUrl}/${AuthorizationStore.getAuthData('userId')}`, AuthorizationStore.getAuthData('token')).then(response => {
+    API.GET(`${this.apiUrl}/container/${AuthorizationStore.getAuthData('userId')}`, AuthorizationStore.getAuthData('token')).then(response => {
       if (response.status !== 'ok') {
         throw new Error(response.errorMsg);
       }
@@ -451,7 +446,7 @@ let ContainerStore = Reflux.createStore({
   },
 
   delete(ids, userId = AuthorizationStore.getUserId()) {
-    API.DELETE(`${this.apiUrl}/${userId}?ids=${JSON.stringify(ids)}`, AuthorizationStore.getAuthData('token'))
+    API.DELETE(`${this.apiUrl}/container/${userId}?ids=${JSON.stringify(ids)}`, AuthorizationStore.getAuthData('token'))
     .then(response => {
       if (response.status !== 'ok') {
         throw new Error(response.errorMsg);
@@ -468,7 +463,7 @@ let ContainerStore = Reflux.createStore({
   },
 
   refresh(ids) {
-    API.PUT(`${this.apiUrl}?ids=${JSON.stringify(ids)}`, AuthorizationStore.getAuthData('token'))
+    API.PUT(`${this.apiUrl}/container?ids=${JSON.stringify(ids)}`, AuthorizationStore.getAuthData('token'))
       .then(response => {
         if (response.status !== 'ok') {
           throw new Error(response.errorMsg);
@@ -477,6 +472,33 @@ let ContainerStore = Reflux.createStore({
         this.data = response.data;
 
         this.getContainers();
+      }).catch(e => {
+        console.error(e);
+
+        AuthorizationStore.checkAuthError(e.message) || alert(e.message);
+      });
+  },
+
+  showLocation(vesselName, line = '') {
+    if (!vesselName) {
+      this.trigger({vesselLocation: {}});
+
+      return;
+    }
+
+    // todo: drop stubbed vessel's name
+    //vesselName = 'RIO CHARA';
+    //
+
+    API.GET(`${this.apiUrl}/tracking/vessel/${vesselName}?line=${line}`, AuthorizationStore.getAuthData('token'))
+      .then(response => {
+        if (response.status !== 'ok') {
+          throw new Error(response.errorMsg);
+        }
+
+        const {lat, lon, timestamp} = response.data;
+
+        this.trigger({vesselLocation: {lat, lon, timestamp}});
       }).catch(e => {
         console.error(e);
 

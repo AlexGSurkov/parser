@@ -18,6 +18,22 @@ module.exports = {
 
   checkAuthorisation(req) {
     return JWTService.getPayloadData(req);
+  },
+  /**
+   * Add time zone to ISO date
+   *
+   * @param   {string}   dt    ISO date
+   * @returns {Date}
+   */
+  addTimeZone(dt) {
+    dt = new Date(dt);
+    dt = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000); // eslint-disable-line no-magic-numbers
+
+    return dt;
+  },
+
+  logActionError(module, msg, action) {
+    return Logging.create({module, msg, action});
   }
 
 };

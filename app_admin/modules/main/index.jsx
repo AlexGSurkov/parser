@@ -8,6 +8,8 @@ import {FormattedMessage, injectIntl} from 'react-intl'; //eslint-disable-line n
 import CoreStores from 'core/stores';
 import CoreActions from 'core/actions';
 
+import ModalLocation from 'core/components/modalLocation';
+
 import SearchForm from './components/searchForm';
 
 //const localePrefix = 'main';
@@ -31,6 +33,7 @@ class Main extends Component {
       detailsIdx: -1,
       allChecked: false,
       selectedRows: new Set(),
+      vesselLocation: {},
       authorized: Boolean(CoreStores.AuthorizationStore.getAuthData('token', ''))
     };
 
@@ -59,11 +62,12 @@ class Main extends Component {
     this.setState({authorized: Boolean(token)});
   }
 
-  setActionResult({actionResult}) {
-    actionResult === 'saved' && this.setState({
+  setActionResult(data) {
+    data.actionResult && data.actionResult === 'saved' ? this.setState({
       allChecked: false,
-      selectedRows: new Set()
-    });
+      selectedRows: new Set(),
+      vesselLocation: {}
+    }) : this.setState(data);
   }
 
   search({line, number}) {
@@ -71,7 +75,8 @@ class Main extends Component {
       detailsIdx: -1,
       allChecked: false,
       selectedRows: new Set(),
-      line
+      line,
+      vesselLocation: {}
     });
 
     CoreActions.ActionsParsing.search(line, number);
@@ -147,14 +152,42 @@ class Main extends Component {
   }
 
   getDetails() {
-    const details = this.state.data.containers[this.state.detailsIdx].locations,
-      {eta} = this.state.data.containers[this.state.detailsIdx],
+    const {locations, line, eta} = this.state.data.containers[this.state.detailsIdx],
       etaDate = eta && eta.date ? `ETA: ${Moment(eta.date).format('YYYY-MM-DD HH:mm')}` : '',
-      etaPod = eta && eta.pod ? `POD: ${eta.pod}` : '';
+      etaPod = eta && eta.pod ? `POD: ${eta.pod}` : '',
+      {authorized, vesselLocation} = this.state;
+
+    let lastVesselState = [];
+
+    // define last state with vessel
+    authorized && locations.reduce((allStates, {states}) => [...allStates, ...states], [])
+      .filter(({period}) => period === 'past' || period === 'current')
+      .reverse().some(({state}) => {
+        if (state.filter(st => st.length).length === 2) {
+          lastVesselState = state;
+
+          return true;
+        }
+
+        return false;
+      });
 
     return (
-      <div key={`${this.state.detailsIdx}_details`} style={styles.detailsContainer}>
-        {details.map((location, idx) => (
+      <div
+        key={`${this.state.detailsIdx}_details`}
+        style={{
+          ...styles.detailsContainer,
+          minHeight: vesselLocation.lat && vesselLocation.lon ? 520 : 0
+        }}
+      >
+        {authorized ?
+          <ModalLocation
+            vesselLocation={vesselLocation}
+            onCancel={() => CoreActions.ActionsContainer.showLocation(null)}
+          /> : null
+        }
+
+        {locations.map((location, idx) => (
           <div key={idx}>
             <h4>{location.location}</h4>
             {location.states.map(({date, state, period}, idx) => (
@@ -167,7 +200,16 @@ class Main extends Component {
                 }}
               >
                 <span style={styles.stateDate}>{Moment(date).format('YYYY-MM-DD HH:mm')}</span>
-                <span style={styles.stateState}>{state.filter(st => st.length).join(', ')}</span>
+                <span style={styles.stateState}>
+                  {state.filter(st => st.length).join(', ')}
+                  <span
+                    style={{
+                      ...styles.btnLocation,
+                      display: authorized && state === lastVesselState && state.filter(st => st.length).length === 2 ? 'block' : 'none'
+                    }}
+                    onClick={() => CoreActions.ActionsContainer.showLocation(state[1], line)}
+                  />
+                </span>
               </div>
             ))}
           </div>
@@ -194,7 +236,8 @@ class Main extends Component {
   }
 
   getTable() {
-    const {containers} = this.state.data || {};
+    const {containers} = this.state.data || {},
+      {authorized, allChecked} = this.state;
 
     return [
       <h4 key="table-header">{this.getTitle()}</h4>,
@@ -204,12 +247,12 @@ class Main extends Component {
           <span style={styles.type}>Type</span>
           <span style={styles.currentState}>Current State</span>
           <span style={styles.showDetails}></span>
-          {this.state.authorized ?
+          {authorized ?
             <span style={styles.select}>
               <input
                 name="allSelect"
                 type="checkbox"
-                checked={this.state.allChecked}
+                checked={allChecked}
                 onChange={() => this.clickAllChecked()}
               />
             </span> : null
@@ -220,28 +263,30 @@ class Main extends Component {
   }
 
   clickDetails(detailsIdx) {
-    this.state.detailsIdx === detailsIdx ? this.setState({detailsIdx: -1}) : this.setState({detailsIdx});
+    this.state.detailsIdx === detailsIdx ?
+      this.setState({detailsIdx: -1, vesselLocation: {}}) : this.setState({detailsIdx, vesselLocation: {}});
   }
 
   render() {
-    const {containers} = this.state.data || {};
+    const {containers} = this.state.data || {},
+      {authorized, lines, selectedRows} = this.state;
 
     return (
       <div style={styles.container}>
         <h3>Main</h3>
         <SearchForm
-          lines={this.state.lines}
+          lines={lines}
           onSearch={this.search}
         />
         {this.getTable()}
-        {this.state.authorized && containers && containers.length ?
+        {authorized && containers && containers.length ?
           <div style={styles.footer}>
             <button
               style={styles.button}
               onClick={() => this.save()}
-              disabled={!Boolean(this.state.selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
+              disabled={!Boolean(selectedRows.size)} //eslint-disable-line no-extra-boolean-cast
             >
-              {`Save To Database (${this.state.selectedRows.size})`}
+              {`Save To Database (${selectedRows.size})`}
             </button>
           </div> : null
         }
@@ -301,6 +346,7 @@ const styles = {
   },
 
   detailsContainer: {
+    position: 'relative',
     margin: '0 20px 20px'
   },
 
@@ -313,6 +359,24 @@ const styles = {
   stateDate: {
     width: 160,
     marginRight: 20
+  },
+
+  stateState: {
+    position: 'relative'
+  },
+
+  btnLocation: {
+    position: 'absolute',
+    backgroundImage: 'url(/images/admin/location.png)',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center center',
+    cursor: 'pointer',
+    width: 40,
+    height: 40,
+    top: -17,
+    right: -35,
+    zIndex: 1
   },
 
   footer: {
