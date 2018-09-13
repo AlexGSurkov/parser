@@ -1,7 +1,6 @@
 'use strict';
 
 const request = require('request-promise'),
-  _ = require('lodash'),
   bcrypt = require('bcrypt-nodejs');
 
 module.exports = {
@@ -81,78 +80,9 @@ module.exports = {
         res.jsonOk();
       });
     }
-  },
-
-  /**
-   * Get logged user scope
-   *
-   * @param   {object}   req
-   * @param   {object}   res
-   */
-  getUserScope(req, res) {
-    Promise.resolve(req.session && req.session.userId).then(id => {
-      if (!id) {
-        throw new Error('User is not authorized by session');
-      }
-
-      return Promise.all([getAllScopes(), getUserScope(id)]);
-    }).then(([scopes = [], userScope = []]) => {
-      res.jsonOk(_.intersection(_.map(scopes, 'code'), userScope));
-    }).catch(e => {
-      res.jsonBad(e.message);
-    });
-  },
-
-  /**
-   * Check if user authorized or not
-   *
-   * @param   {object}   req
-   * @param   {object}   res
-   */
-  isAuthorized(req, res) {
-    res.jsonOk(Boolean(req.session && req.session.userId));
   }
 
 };
-
-/**
- * Get all scopes
- *
- * @returns {Promise}
- */
-function getAllScopes() {
-  return request.post({
-    uri: `http://${sails.config.microservices.allInclusive}/allinclusive/scopes/filter`,
-    body: {filter: {attributes: ['code']}},
-    json: true
-  }).then(({status, data, errorMsg} = {}) => {
-    if (status !== 'ok') {
-      throw new Error(errorMsg);
-    }
-
-    return data;
-  });
-}
-
-/**
- * Ger user scope
- *
- * @param   {string}   id   user id
- * @returns {Promise}
- */
-function getUserScope(id) {
-  return request.post({
-    uri: `http://${sails.config.microservices.allInclusive}/allinclusive/user/filter`,
-    body: {filter: {where: {id}, attributes: ['scope']}},
-    json: true
-  }).then(({status, data, errorMsg} = {}) => {
-    if (status !== 'ok') {
-      throw new Error(errorMsg);
-    }
-
-    return data.scope;
-  });
-}
 
 /**
  *

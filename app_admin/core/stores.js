@@ -486,10 +486,6 @@ let ContainerStore = Reflux.createStore({
       return;
     }
 
-    // todo: drop stubbed vessel's name
-    vesselName = 'RIO CHARA';
-    //
-
     API.GET(`${this.apiUrl}/tracking/vessel/${vesselName}?line=${line}`, AuthorizationStore.getAuthData('token'))
       .then(response => {
         if (response.status !== 'ok') {

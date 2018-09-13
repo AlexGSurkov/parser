@@ -120,4 +120,5 @@ z_*
 .vscode
 jsconfig.json
 data*.json
+*.csv
 docs

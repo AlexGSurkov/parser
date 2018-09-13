@@ -21,7 +21,13 @@ module.exports = {
       const imo = vessels.map(([imo]) => imo),
         existImos = await Vessel.findAll({where: {imo}, raw: true}).then(result => result ? result.map(({imo}) => imo) : []),
         newVessels = vessels.filter(([imo]) => !existImos.includes(imo)).map(([imo, name, line = '']) => ({imo, name: name.toUpperCase(), line})),
-        existVessels = vessels.filter(([imo]) => existImos.includes(imo)).map(([imo, name, line = '']) => ({imo, name: name.toUpperCase(), line}));
+        existVessels = vessels.filter(([imo]) => existImos.includes(imo)).map(([imo, name, line]) => {
+          if (line || line === '') {
+            return {imo, name: name.toUpperCase(), line};
+          }
+
+          return {imo, name: name.toUpperCase()};
+        });
 
       if (newVessels.length || existVessels.length) {
         await SequelizeConnections[sails.config.models.connection].transaction(async transaction => {

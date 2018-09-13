@@ -22,7 +22,11 @@ module.exports = {
 
   async addVessels(req, res) {
     try {
-      await UtilsService.checkAuthorisation(req);
+      const {role} = await UtilsService.checkAuthorisation(req);
+
+      if (role !== 'admin') {
+        throw new Error('Only user with role "admin" can update DB of vessels');
+      }
 
       if (req.body && Array.isArray(req.body)) {
         const result = await TrackingService.addVessels(req.body);

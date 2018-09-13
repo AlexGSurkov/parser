@@ -28,7 +28,7 @@ let ModalLocation = ({google, vesselLocation: {lat, lon: lng, timestamp}, onCanc
         style={styles.mapContainer}
         google={google}
         initialCenter={{lat, lng}}
-        zoom={12}
+        zoom={5}
       >
         <Marker
           onClick={() => alert(`Actual date of location is ${Moment(timestamp).format('YYYY-MM-DD HH:mm')}`)}
