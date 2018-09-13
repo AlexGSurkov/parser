@@ -96,8 +96,6 @@ class LineCoscoApi extends ILine {
           vessel = [vesselResponse.vessel];
           voyage = vesselResponse.voyage; // eslint-disable-line prefer-destructuring
         }
-      } else {
-        vessel = ['Truck'];
       }
 
       period === 'current' && (currentState = [containerNumberStatus, timeOfIssue, location]);
