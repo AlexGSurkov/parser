@@ -2,9 +2,7 @@
 
 const fs = require('fs'),
   request = require('request-promise'),
-  apiURL = 'http://localhost:1400/api';
-
-//Promise.promisifyAll(fs);
+  apiURL = 'http://sandbox.online2you.net:1400/api';//'http://localhost:1400/api';
 
 module.exports = function(grunt) {
   grunt.registerTask('loadImoFromCsv', 'Load IMO to DB from .csv', async function(login, password) {
